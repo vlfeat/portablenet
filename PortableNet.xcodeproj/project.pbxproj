@@ -8,12 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2DA060471F910D47002A6BA3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DA060461F910D47002A6BA3 /* main.cpp */; };
-		2DA061F81F911019002A6BA3 /* mcn_standalone_CPU.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2DA061F71F911019002A6BA3 /* mcn_standalone_CPU.hpp */; };
-		2DA061FA1F911019002A6BA3 /* mcn_standalone_CPUPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2DA061F91F911019002A6BA3 /* mcn_standalone_CPUPriv.hpp */; };
-		2DA061FC1F911019002A6BA3 /* mcn_standalone_CPU.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DA061FB1F911019002A6BA3 /* mcn_standalone_CPU.cpp */; };
-		2DA062071F911056002A6BA3 /* mcn_lib_cpu.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2DA062061F911056002A6BA3 /* mcn_lib_cpu.hpp */; };
-		2DA062091F911056002A6BA3 /* mcn_lib_cpuPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2DA062081F911056002A6BA3 /* mcn_lib_cpuPriv.hpp */; };
-		2DA0620B1F911056002A6BA3 /* mcn_lib_cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DA0620A1F911056002A6BA3 /* mcn_lib_cpu.cpp */; };
+		2DD917DA1F914B390039CDCB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD917D91F914B390039CDCB /* Accelerate.framework */; };
+		2DD917E01F9159440039CDCB /* libmcn-lib-cpu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD917D61F9146CC0039CDCB /* libmcn-lib-cpu.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +19,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 2D375DC318A7FD1C008A97EE;
 			remoteInfo = gconv;
+		};
+		2DD917D51F9146CC0039CDCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2DA061E81F910FC6002A6BA3 /* matconvnet.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2DB06DDC1F91118000BDB89B;
+			remoteInfo = "mcn-lib-cpu";
+		};
+		2DD917DE1F91589B0039CDCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2DA061E81F910FC6002A6BA3 /* matconvnet.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 2DB06DDB1F91118000BDB89B;
+			remoteInfo = "mcn-lib-cpu";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -42,14 +52,7 @@
 		2DA060431F910D46002A6BA3 /* PortableNet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PortableNet; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA060461F910D47002A6BA3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2DA061E81F910FC6002A6BA3 /* matconvnet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = matconvnet.xcodeproj; path = Lib/matconvnet/matconvnet.xcodeproj; sourceTree = "<group>"; };
-		2DA061F51F911019002A6BA3 /* libmcn standalone CPU.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmcn standalone CPU.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2DA061F71F911019002A6BA3 /* mcn_standalone_CPU.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mcn_standalone_CPU.hpp; sourceTree = "<group>"; };
-		2DA061F91F911019002A6BA3 /* mcn_standalone_CPUPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mcn_standalone_CPUPriv.hpp; sourceTree = "<group>"; };
-		2DA061FB1F911019002A6BA3 /* mcn_standalone_CPU.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mcn_standalone_CPU.cpp; sourceTree = "<group>"; };
-		2DA062041F911056002A6BA3 /* libmcn-lib-cpu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmcn-lib-cpu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2DA062061F911056002A6BA3 /* mcn_lib_cpu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mcn_lib_cpu.hpp; sourceTree = "<group>"; };
-		2DA062081F911056002A6BA3 /* mcn_lib_cpuPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mcn_lib_cpuPriv.hpp; sourceTree = "<group>"; };
-		2DA0620A1F911056002A6BA3 /* mcn_lib_cpu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mcn_lib_cpu.cpp; sourceTree = "<group>"; };
+		2DD917D91F914B390039CDCB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,20 +60,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2DA061F21F911019002A6BA3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2DA062011F911056002A6BA3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				2DD917E01F9159440039CDCB /* libmcn-lib-cpu.a in Frameworks */,
+				2DD917DA1F914B390039CDCB /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,9 +73,8 @@
 			children = (
 				2DA061E81F910FC6002A6BA3 /* matconvnet.xcodeproj */,
 				2DA060451F910D46002A6BA3 /* PortableNet */,
-				2DA061F61F911019002A6BA3 /* mcn standalone CPU */,
-				2DA062051F911056002A6BA3 /* mcn-lib-cpu */,
 				2DA060441F910D46002A6BA3 /* Products */,
+				2DD917D71F91494C0039CDCB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,8 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				2DA060431F910D46002A6BA3 /* PortableNet */,
-				2DA061F51F911019002A6BA3 /* libmcn standalone CPU.a */,
-				2DA062041F911056002A6BA3 /* libmcn-lib-cpu.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -110,52 +98,20 @@
 			isa = PBXGroup;
 			children = (
 				2DA061F01F910FC6002A6BA3 /* libgconv.dylib */,
+				2DD917D61F9146CC0039CDCB /* libmcn-lib-cpu.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2DA061F61F911019002A6BA3 /* mcn standalone CPU */ = {
+		2DD917D71F91494C0039CDCB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2DA061F71F911019002A6BA3 /* mcn_standalone_CPU.hpp */,
-				2DA061F91F911019002A6BA3 /* mcn_standalone_CPUPriv.hpp */,
-				2DA061FB1F911019002A6BA3 /* mcn_standalone_CPU.cpp */,
+				2DD917D91F914B390039CDCB /* Accelerate.framework */,
 			);
-			path = "mcn standalone CPU";
-			sourceTree = "<group>";
-		};
-		2DA062051F911056002A6BA3 /* mcn-lib-cpu */ = {
-			isa = PBXGroup;
-			children = (
-				2DA062061F911056002A6BA3 /* mcn_lib_cpu.hpp */,
-				2DA062081F911056002A6BA3 /* mcn_lib_cpuPriv.hpp */,
-				2DA0620A1F911056002A6BA3 /* mcn_lib_cpu.cpp */,
-			);
-			path = "mcn-lib-cpu";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
-
-/* Begin PBXHeadersBuildPhase section */
-		2DA061F31F911019002A6BA3 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2DA061FA1F911019002A6BA3 /* mcn_standalone_CPUPriv.hpp in Headers */,
-				2DA061F81F911019002A6BA3 /* mcn_standalone_CPU.hpp in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2DA062021F911056002A6BA3 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2DA062071F911056002A6BA3 /* mcn_lib_cpu.hpp in Headers */,
-				2DA062091F911056002A6BA3 /* mcn_lib_cpuPriv.hpp in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		2DA060421F910D46002A6BA3 /* PortableNet */ = {
@@ -169,45 +125,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				2DD917DF1F91589B0039CDCB /* PBXTargetDependency */,
 			);
 			name = PortableNet;
 			productName = PortableNet;
 			productReference = 2DA060431F910D46002A6BA3 /* PortableNet */;
 			productType = "com.apple.product-type.tool";
-		};
-		2DA061F41F911019002A6BA3 /* mcn standalone CPU */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2DA061FD1F911019002A6BA3 /* Build configuration list for PBXNativeTarget "mcn standalone CPU" */;
-			buildPhases = (
-				2DA061F11F911019002A6BA3 /* Sources */,
-				2DA061F21F911019002A6BA3 /* Frameworks */,
-				2DA061F31F911019002A6BA3 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "mcn standalone CPU";
-			productName = "mcn standalone CPU";
-			productReference = 2DA061F51F911019002A6BA3 /* libmcn standalone CPU.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		2DA062031F911056002A6BA3 /* mcn-lib-cpu */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2DA0620C1F911056002A6BA3 /* Build configuration list for PBXNativeTarget "mcn-lib-cpu" */;
-			buildPhases = (
-				2DA062001F911056002A6BA3 /* Sources */,
-				2DA062011F911056002A6BA3 /* Frameworks */,
-				2DA062021F911056002A6BA3 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "mcn-lib-cpu";
-			productName = "mcn-lib-cpu";
-			productReference = 2DA062041F911056002A6BA3 /* libmcn-lib-cpu.a */;
-			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -219,14 +142,6 @@
 				ORGANIZATIONNAME = VGG;
 				TargetAttributes = {
 					2DA060421F910D46002A6BA3 = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
-					};
-					2DA061F41F911019002A6BA3 = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
-					};
-					2DA062031F911056002A6BA3 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
 					};
@@ -251,8 +166,6 @@
 			projectRoot = "";
 			targets = (
 				2DA060421F910D46002A6BA3 /* PortableNet */,
-				2DA061F41F911019002A6BA3 /* mcn standalone CPU */,
-				2DA062031F911056002A6BA3 /* mcn-lib-cpu */,
 			);
 		};
 /* End PBXProject section */
@@ -263,6 +176,13 @@
 			fileType = "compiled.mach-o.dylib";
 			path = libgconv.dylib;
 			remoteRef = 2DA061EF1F910FC6002A6BA3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2DD917D61F9146CC0039CDCB /* libmcn-lib-cpu.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libmcn-lib-cpu.a";
+			remoteRef = 2DD917D51F9146CC0039CDCB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -276,23 +196,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2DA061F11F911019002A6BA3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2DA061FC1F911019002A6BA3 /* mcn_standalone_CPU.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2DA062001F911056002A6BA3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2DA0620B1F911056002A6BA3 /* mcn_lib_cpu.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2DD917DF1F91589B0039CDCB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "mcn-lib-cpu";
+			targetProxy = 2DD917DE1F91589B0039CDCB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2DA060481F910D47002A6BA3 /* Debug */ = {
@@ -414,50 +326,6 @@
 			};
 			name = Release;
 		};
-		2DA061FE1F911019002A6BA3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				EXECUTABLE_PREFIX = lib;
-				GCC_ENABLE_CPP_EXCEPTIONS = YES;
-				GCC_ENABLE_CPP_RTTI = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		2DA061FF1F911019002A6BA3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				EXECUTABLE_PREFIX = lib;
-				GCC_ENABLE_CPP_EXCEPTIONS = YES;
-				GCC_ENABLE_CPP_RTTI = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		2DA0620D1F911056002A6BA3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				EXECUTABLE_PREFIX = lib;
-				GCC_ENABLE_CPP_EXCEPTIONS = YES;
-				GCC_ENABLE_CPP_RTTI = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		2DA0620E1F911056002A6BA3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				EXECUTABLE_PREFIX = lib;
-				GCC_ENABLE_CPP_EXCEPTIONS = YES;
-				GCC_ENABLE_CPP_RTTI = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -475,24 +343,6 @@
 			buildConfigurations = (
 				2DA0604B1F910D47002A6BA3 /* Debug */,
 				2DA0604C1F910D47002A6BA3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2DA061FD1F911019002A6BA3 /* Build configuration list for PBXNativeTarget "mcn standalone CPU" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2DA061FE1F911019002A6BA3 /* Debug */,
-				2DA061FF1F911019002A6BA3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2DA0620C1F911056002A6BA3 /* Build configuration list for PBXNativeTarget "mcn-lib-cpu" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2DA0620D1F911056002A6BA3 /* Debug */,
-				2DA0620E1F911056002A6BA3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -7,17 +7,20 @@
 		<key>PortableNet.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
-		</dict>
-		<key>mcn standalone CPU.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
-		<key>mcn-lib-cpu.xcscheme</key>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>2DA061F41F911019002A6BA3</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>6</integer>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2DA062031F911056002A6BA3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
