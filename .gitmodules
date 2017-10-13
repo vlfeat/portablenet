@@ -1,3 +1,4 @@
 [submodule "Lib/matconvnet"]
 	path = Lib/matconvnet
-	url = git@github.com:vlfeat/matconvnet.git
+	url = https://github.com/vlfeat/matconvnet.git
+
