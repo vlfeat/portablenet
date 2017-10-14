@@ -8,14 +8,16 @@
 
 #include <iostream>
 #include <memory>
+
+#include "json.hpp"
 #include "../Lib/matconvnet/matlab/src/bits/data.hpp"
 #include "../Lib/matconvnet/matlab/src/bits/nnconv.hpp"
 
 using namespace std ;
 using namespace vl ;
 
-int main(int argc, const char * argv[]) {
-
+int main(int argc, const char * argv[])
+{
   TensorShape y_shape(1,1,1,1) ;
   auto y_size = y_shape.getNumElements() * sizeof(float) ;
   auto y_memory = make_unique<float[]>(y_size) ;

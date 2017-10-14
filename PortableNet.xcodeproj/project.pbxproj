@@ -52,6 +52,7 @@
 		2DA060431F910D46002A6BA3 /* PortableNet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PortableNet; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA060461F910D47002A6BA3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2DA061E81F910FC6002A6BA3 /* matconvnet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = matconvnet.xcodeproj; path = Lib/matconvnet/matconvnet.xcodeproj; sourceTree = "<group>"; };
+		2DC7B5FF1F923AC400C30533 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = Lib/json/src/json.hpp; sourceTree = SOURCE_ROOT; };
 		2DD917D91F914B390039CDCB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -89,6 +90,7 @@
 		2DA060451F910D46002A6BA3 /* PortableNet */ = {
 			isa = PBXGroup;
 			children = (
+				2DC7B5FF1F923AC400C30533 /* json.hpp */,
 				2DA060461F910D47002A6BA3 /* main.cpp */,
 			);
 			path = PortableNet;
