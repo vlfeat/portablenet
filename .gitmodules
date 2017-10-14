@@ -2,3 +2,6 @@
 	path = Lib/matconvnet
 	url = https://github.com/vlfeat/matconvnet.git
 
+[submodule "Lib/json"]
+	path = Lib/json
+	url = https://github.com/nlohmann/json.git
