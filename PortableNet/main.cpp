@@ -7,11 +7,10 @@
 //
 
 #include <iostream>
+#include <fstream>
 #include <memory>
 
-#include "json.hpp"
-#include "../Lib/matconvnet/matlab/src/bits/data.hpp"
-#include "../Lib/matconvnet/matlab/src/bits/nnconv.hpp"
+#include "program.hpp"
 
 using namespace std ;
 using namespace vl ;
@@ -49,6 +48,15 @@ int main(int argc, const char * argv[])
   op.forward(y,0,x,1,w,b) ;
 
   cout << "y = " << y_memory[0] << endl ;
+
+  // Try some more complex code.
+  Program program ;
+  Workspace ws ;
+  ws.baseName("data/alexnet.mcn") ;
+  program.load("data/alexnet.mcn") ;
+  program.print() ;
+  program.execute(ws) ;
+  ws.print() ;
 
   return 0;
 }

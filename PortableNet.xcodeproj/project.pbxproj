@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D8D3E7C1F92E68900686D30 /* program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D8D3E7A1F92E68900686D30 /* program.cpp */; };
 		2DA060471F910D47002A6BA3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DA060461F910D47002A6BA3 /* main.cpp */; };
 		2DD917DA1F914B390039CDCB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD917D91F914B390039CDCB /* Accelerate.framework */; };
 		2DD917E01F9159440039CDCB /* libmcn-lib-cpu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD917D61F9146CC0039CDCB /* libmcn-lib-cpu.a */; };
@@ -49,6 +50,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2D8D3E7A1F92E68900686D30 /* program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = program.cpp; sourceTree = "<group>"; };
+		2D8D3E7B1F92E68900686D30 /* program.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = program.hpp; sourceTree = "<group>"; };
+		2D8D3E7D1F92E6CD00686D30 /* mcn.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mcn.hpp; sourceTree = "<group>"; };
 		2DA060431F910D46002A6BA3 /* PortableNet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PortableNet; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA060461F910D47002A6BA3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2DA061E81F910FC6002A6BA3 /* matconvnet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = matconvnet.xcodeproj; path = Lib/matconvnet/matconvnet.xcodeproj; sourceTree = "<group>"; };
@@ -92,6 +96,9 @@
 			children = (
 				2DC7B5FF1F923AC400C30533 /* json.hpp */,
 				2DA060461F910D47002A6BA3 /* main.cpp */,
+				2D8D3E7A1F92E68900686D30 /* program.cpp */,
+				2D8D3E7B1F92E68900686D30 /* program.hpp */,
+				2D8D3E7D1F92E6CD00686D30 /* mcn.hpp */,
 			);
 			path = PortableNet;
 			sourceTree = "<group>";
@@ -194,6 +201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D8D3E7C1F92E68900686D30 /* program.cpp in Sources */,
 				2DA060471F910D47002A6BA3 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,7 +223,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -270,7 +278,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
