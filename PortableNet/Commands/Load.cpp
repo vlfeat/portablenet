@@ -32,7 +32,7 @@ ErrorCode Load(json const& op, Workspace& ws)
 
   // Use tensor cached value if any.
   // Todo: this cannot be right in general.
-  if (ws.exists(name)) { return VLE_IllegalArgument ; }
+  if (ws.exists(name)) { return VLE_Success ; }
 
   // Get the tensor data type.
   DataType dt ;

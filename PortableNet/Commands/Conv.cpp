@@ -59,7 +59,6 @@ ErrorCode Conv(json const& opc, Workspace& ws)
   // Call convolution
   TensorShape yShape ;
   error = op.forwardShape(yShape, x, w) ;
-
   Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,yShape) ;
 
   error = op.forward(y,0,x,1,w,b) ;
