@@ -49,10 +49,6 @@ public:
 
 private:
   nlohmann::json source ;
-
-  // List of tensor parameters and corresponding data blobs.
-  std::vector<vl::Tensor> params ;
-  std::vector<std::unique_ptr<float[]>> paramBlobs ;
 } ;
 
 #endif /* network_hpp */
