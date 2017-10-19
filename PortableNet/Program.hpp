@@ -16,7 +16,11 @@
 class Program ;
 class Workspace ;
 
-void Load(nlohmann::json const& op, Workspace& ws) ;
+extern vl::Context globalContext ;
+
+vl::ErrorCode Load(nlohmann::json const& op, Workspace& ws) ;
+vl::ErrorCode LoadImage(nlohmann::json const& op, Workspace& ws) ;
+vl::ErrorCode Conv(nlohmann::json const& op, Workspace& ws) ;
 
 class Workspace
 {
@@ -29,7 +33,6 @@ public:
   void remove(std::string name) ;
   std::string const& baseName() const ;
   void baseName(std::string const& name) ;
-
 
 private:
   std::string baseNameString ;

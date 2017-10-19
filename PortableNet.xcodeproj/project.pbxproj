@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2D8D3E7C1F92E68900686D30 /* program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D8D3E7A1F92E68900686D30 /* program.cpp */; };
+		2D8D3E7C1F92E68900686D30 /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D8D3E7A1F92E68900686D30 /* Program.cpp */; };
+		2D9325341F97FBE6001124B1 /* LoadImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D9325331F97FBE6001124B1 /* LoadImage.cpp */; };
 		2DA060471F910D47002A6BA3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DA060461F910D47002A6BA3 /* main.cpp */; };
+		2DD0E70D1F9521BE00AC1911 /* Conv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DD0E70C1F9521BE00AC1911 /* Conv.cpp */; };
+		2DD0E7151F9521EA00AC1911 /* Load.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DD0E7131F9521EA00AC1911 /* Load.cpp */; };
 		2DD917DA1F914B390039CDCB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD917D91F914B390039CDCB /* Accelerate.framework */; };
 		2DD917E01F9159440039CDCB /* libmcn-lib-cpu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD917D61F9146CC0039CDCB /* libmcn-lib-cpu.a */; };
 /* End PBXBuildFile section */
@@ -50,13 +53,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2D8D3E7A1F92E68900686D30 /* program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = program.cpp; sourceTree = "<group>"; };
-		2D8D3E7B1F92E68900686D30 /* program.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = program.hpp; sourceTree = "<group>"; };
+		2D8D3E7A1F92E68900686D30 /* Program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cpp; sourceTree = "<group>"; };
+		2D8D3E7B1F92E68900686D30 /* Program.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Program.hpp; sourceTree = "<group>"; };
 		2D8D3E7D1F92E6CD00686D30 /* mcn.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mcn.hpp; sourceTree = "<group>"; };
+		2D9325331F97FBE6001124B1 /* LoadImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoadImage.cpp; sourceTree = "<group>"; };
 		2DA060431F910D46002A6BA3 /* PortableNet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PortableNet; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA060461F910D47002A6BA3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2DA061E81F910FC6002A6BA3 /* matconvnet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = matconvnet.xcodeproj; path = Lib/matconvnet/matconvnet.xcodeproj; sourceTree = "<group>"; };
 		2DC7B5FF1F923AC400C30533 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = Lib/json/src/json.hpp; sourceTree = SOURCE_ROOT; };
+		2DD0E70C1F9521BE00AC1911 /* Conv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Conv.cpp; sourceTree = "<group>"; };
+		2DD0E7131F9521EA00AC1911 /* Load.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Load.cpp; sourceTree = "<group>"; };
 		2DD917D91F914B390039CDCB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -94,10 +100,11 @@
 		2DA060451F910D46002A6BA3 /* PortableNet */ = {
 			isa = PBXGroup;
 			children = (
+				2DD0E7121F9521C500AC1911 /* Commands */,
 				2DC7B5FF1F923AC400C30533 /* json.hpp */,
 				2DA060461F910D47002A6BA3 /* main.cpp */,
-				2D8D3E7A1F92E68900686D30 /* program.cpp */,
-				2D8D3E7B1F92E68900686D30 /* program.hpp */,
+				2D8D3E7A1F92E68900686D30 /* Program.cpp */,
+				2D8D3E7B1F92E68900686D30 /* Program.hpp */,
 				2D8D3E7D1F92E6CD00686D30 /* mcn.hpp */,
 			);
 			path = PortableNet;
@@ -110,6 +117,16 @@
 				2DD917D61F9146CC0039CDCB /* libmcn-lib-cpu.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2DD0E7121F9521C500AC1911 /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				2DD0E70C1F9521BE00AC1911 /* Conv.cpp */,
+				2DD0E7131F9521EA00AC1911 /* Load.cpp */,
+				2D9325331F97FBE6001124B1 /* LoadImage.cpp */,
+			);
+			path = Commands;
 			sourceTree = "<group>";
 		};
 		2DD917D71F91494C0039CDCB /* Frameworks */ = {
@@ -201,7 +218,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D8D3E7C1F92E68900686D30 /* program.cpp in Sources */,
+				2D9325341F97FBE6001124B1 /* LoadImage.cpp in Sources */,
+				2DD0E70D1F9521BE00AC1911 /* Conv.cpp in Sources */,
+				2DD0E7151F9521EA00AC1911 /* Load.cpp in Sources */,
+				2D8D3E7C1F92E68900686D30 /* Program.cpp in Sources */,
 				2DA060471F910D47002A6BA3 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

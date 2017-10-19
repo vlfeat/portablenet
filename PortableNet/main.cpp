@@ -10,7 +10,7 @@
 #include <fstream>
 #include <memory>
 
-#include "program.hpp"
+#include "Program.hpp"
 
 using namespace std ;
 using namespace vl ;

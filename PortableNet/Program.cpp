@@ -6,7 +6,7 @@
 //  Copyright © 2017 VGG. All rights reserved.
 //
 
-#include "program.hpp"
+#include "Program.hpp"
 #include "json.hpp"
 
 #include <iostream>
@@ -17,6 +17,8 @@
 using namespace std ;
 using namespace nlohmann ;
 using namespace vl ;
+
+vl::Context globalContext ;
 
 // MARK: - Workspace
 
@@ -119,49 +121,6 @@ void Workspace::baseName(std::string const& name)
 
 // MARK: - Commands
 
-void Load(nlohmann::json const& op, Workspace& ws)
-{
-  // Todo: error checking, gracefult exit, throw exceptions?
-  assert(op["inputs"].is_array()) ;
-  assert(op["outputs"].is_array()) ;
-  assert(op["fileName"].is_string()) ;
-  assert(op["dataType"].is_string()) ;
-  assert(op["shape"].is_array()) ;
-
-  // Get the name of the output tensor.
-  auto name = op["outputs"][0].get<string>() ;
-
-  // Use tensor cached value if any.
-  // Todo: this cannot be right in general.
-  if (ws.exists(name)) { return ; }
-
-  // Get the tensor data type.
-  DataType dt ;
-  if (op["dataType"] == "single") {
-    dt = VLDT_Float ;
-  } else if (op["dataType"] == "double") {
-    dt = VLDT_Double ;
-  } else {
-    assert(false) ;
-  }
-
-  // Get the tensro dimensions.
-  auto dims = op["shape"].get<vector<size_t>>() ;
-  TensorShape shape(dims);
-
-  // Allocate the tensor in the workspace.
-  auto tensor = ws.get(name, dt, shape) ;
-
-  // Read the tensor file.
-  auto tensorPath = ws.baseName() + "/" + op["fileName"].get<string>() ;
-  auto tensorFile = ifstream(tensorPath, ios::in | ios::binary) ;
-  if (tensorFile.is_open()) {
-    // Todo: endian.
-    tensorFile.read(reinterpret_cast<char*>(tensor.getMemory()),
-                    shape.getNumElements() * getDataTypeSizeInBytes(dt)) ;
-  }
-  // Todo: check the file was correctly read.
-}
 
 // MARK: - Program
 
@@ -172,6 +131,12 @@ void Program::execute(Workspace& ws)
     cout << "Executing " << type << endl ;
     if (type == "Load") {
       Load(op, ws) ;
+    }
+    else if (type == "dagnn.Conv") {
+      Conv(op, ws) ;
+    }
+    else if (type == "LoadImage") {
+      LoadImage(op, ws) ;
     }
   }
 }
