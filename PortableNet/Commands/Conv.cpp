@@ -55,6 +55,7 @@ ErrorCode Conv(json const& opc, Workspace& ws)
       assert(false) ;
     }
   }
+  if (!x) { return VLE_IllegalArgument ; }
 
   // Call convolution
   TensorShape yShape ;

@@ -45,7 +45,7 @@ ErrorCode Load(json const& op, Workspace& ws)
   }
 
   // Get the tensro dimensions.
-  auto dims = op["shape"].get<vector<size_t>>() ;
+  auto dims = op["shape"].get<vector<Int>>() ;
   TensorShape shape(dims);
 
   // Allocate the tensor in the workspace.
