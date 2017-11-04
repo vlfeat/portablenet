@@ -53,7 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2D7BBB8C1FAE0456006657C9 /* json.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
+		2D7BBB941FAE05EC006657C9 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = Lib/json/src/json.hpp; sourceTree = "<group>"; };
 		2D8D3E7A1F92E68900686D30 /* Program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cpp; sourceTree = "<group>"; };
 		2D8D3E7B1F92E68900686D30 /* Program.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Program.hpp; sourceTree = "<group>"; };
 		2D8D3E7D1F92E6CD00686D30 /* mcn.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mcn.hpp; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				2DA061E81F910FC6002A6BA3 /* matconvnet.xcodeproj */,
-				2D7BBB8C1FAE0456006657C9 /* json.hpp */,
+				2D7BBB941FAE05EC006657C9 /* json.hpp */,
 				2DA060451F910D46002A6BA3 /* PortableNet */,
 				2DA060441F910D46002A6BA3 /* Products */,
 				2DD917D71F91494C0039CDCB /* Frameworks */,
