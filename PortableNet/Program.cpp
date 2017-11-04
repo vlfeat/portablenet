@@ -29,10 +29,7 @@ void Workspace::print() const
     auto const& name = entry.first ;
     auto const& tensor = entry.second ;
     cout << "\t" << name << ": [" ;
-    for (auto i = tensor.getDimensions() ;
-         i != tensor.getDimensions() + tensor.getNumDimensions() ; ++i) {
-      cout << *i << " " ;
-    }
+    for (auto d : tensor.getDimensions()) { cout << d << " " ; }
     cout << "] " ;
     if (tensor.getMemory()) {
       switch (tensor.getDataType()) {
