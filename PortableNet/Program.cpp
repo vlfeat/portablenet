@@ -51,6 +51,8 @@ void Workspace::print() const
   }
 }
 
+/// Retrieve a given tensor from the workspace. If there is no such
+/// a tensor, a null tensor is returned instead.
 vl::Tensor Workspace::get(string name)
 {
   // Search if such a tensor exists.
@@ -59,6 +61,10 @@ vl::Tensor Workspace::get(string name)
   return Tensor() ; // Null tensor
 }
 
+/// Retrieve a tensor with specified type and shape from the workspace.
+/// If no such a tensor is already found in the workspace,
+/// a new one is allocated, possibly after deleting a previous tensor
+/// of the same name (if any).
 vl::Tensor Workspace::get(string name, DataType dt, TensorShape const& shape)
 {
   // Search if such a tensor exists.
@@ -75,6 +81,10 @@ vl::Tensor Workspace::get(string name, DataType dt, TensorShape const& shape)
   size_t numBytes = shape.getNumElements() * getDataTypeSizeInBytes(dt) ;
   void* memory = malloc(numBytes) ;
   assert(memory) ;
+  if (memory == NULL) {
+    // Throw or return null tensor?
+    numBytes = 0 ;
+  }
   Tensor tensor(shape, dt, VLDT_CPU, memory, numBytes) ;
 
   // Add back to list.
@@ -121,21 +131,22 @@ void Workspace::baseName(std::string const& name)
 
 // MARK: - Program
 
-void Program::execute(Workspace& ws)
+vl::ErrorCode Program::execute(Workspace& ws)
 {
   for (auto const& op : source["operations"]) {
     auto type = op["type"].get<string>() ;
     cout << "Executing " << type << endl ;
     if (type == "Load") {
-      Load(op, ws) ;
+      PNCHECK(Load(op, ws)) ;
     }
     else if (type == "dagnn.Conv") {
-      Conv(op, ws) ;
+      PNCHECK(Conv(op, ws)) ;
     }
     else if (type == "LoadImage") {
-      LoadImage(op, ws) ;
+      PNCHECK(LoadImage(op, ws)) ;
     }
   }
+  return VLE_Success ;
 }
 
 void Program::load(std::string fileName)

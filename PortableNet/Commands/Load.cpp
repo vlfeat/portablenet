@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <memory>
 
 #include "Program.hpp"
@@ -20,45 +21,48 @@ using namespace nlohmann ;
 
 ErrorCode Load(json const& op, Workspace& ws)
 {
-  // Todo: error checking, gracefult exit, throw exceptions?
-  assert(op["inputs"].is_array()) ;
-  assert(op["outputs"].is_array()) ;
-  assert(op["fileName"].is_string()) ;
-  assert(op["dataType"].is_string()) ;
-  assert(op["shape"].is_array()) ;
+  try {
+    // Get the name of the output tensor.
+    auto name = op["outputs"][0].get<string>() ;
 
-  // Get the name of the output tensor.
-  auto name = op["outputs"][0].get<string>() ;
+    // Use tensor cached value if any.
+    // Todo: this cannot be right in general.
+    if (ws.exists(name)) { return VLE_Success ; }
 
-  // Use tensor cached value if any.
-  // Todo: this cannot be right in general.
-  if (ws.exists(name)) { return VLE_Success ; }
+    // Get the tensor data type.
+    DataType dt ;
+    if (op["dataType"] == "single") {
+      dt = VLDT_Float ;
+    } else if (op["dataType"] == "double") {
+      dt = VLDT_Double ;
+    } else {
+      assert(false) ;
+    }
 
-  // Get the tensor data type.
-  DataType dt ;
-  if (op["dataType"] == "single") {
-    dt = VLDT_Float ;
-  } else if (op["dataType"] == "double") {
-    dt = VLDT_Double ;
-  } else {
-    assert(false) ;
+    // Get the tensor dimensions.
+    auto dims = op["shape"].get<vector<Int>>() ;
+    TensorShape shape(dims);
+
+    // Allocate the tensor in the workspace.
+    auto tensor = ws.get(name, dt, shape) ;
+    if (!shape.isEmpty() && tensor.isNull()) {
+      // Allocation error.
+      return VLE_OutOfMemory ;
+    }
+
+    // Read the tensor file.
+    auto tensorPath = ws.baseName() + "/" + op["fileName"].get<string>() ;
+    auto tensorFile = ifstream(tensorPath, ios::in | ios::binary) ;
+    if (tensorFile.is_open()) {
+      // Todo: endiannes conversion.
+      tensorFile.read(reinterpret_cast<char*>(tensor.getMemory()),
+                      shape.getNumElements() * getDataTypeSizeInBytes(dt)) ;
+    }
+  }
+  catch (json::exception& e) {
+    auto msg = ostringstream()<<"Load: JSON error: "<<e.what() ;
+    return globalContext.setError(VLE_IllegalArgument, msg.str().c_str()) ;
   }
 
-  // Get the tensro dimensions.
-  auto dims = op["shape"].get<vector<Int>>() ;
-  TensorShape shape(dims);
-
-  // Allocate the tensor in the workspace.
-  auto tensor = ws.get(name, dt, shape) ;
-
-  // Read the tensor file.
-  auto tensorPath = ws.baseName() + "/" + op["fileName"].get<string>() ;
-  auto tensorFile = ifstream(tensorPath, ios::in | ios::binary) ;
-  if (tensorFile.is_open()) {
-    // Todo: endian.
-    tensorFile.read(reinterpret_cast<char*>(tensor.getMemory()),
-                    shape.getNumElements() * getDataTypeSizeInBytes(dt)) ;
-  }
-  // Todo: check the file was correctly read.
   return VLE_Success ;
 }

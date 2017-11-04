@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <memory>
 
 #include "Program.hpp"
@@ -23,45 +24,36 @@ using namespace nlohmann ;
 ErrorCode Conv(json const& opc, Workspace& ws)
 {
   ErrorCode error = VLE_Success ;
-  // Todo: error checking, gracefult exit, throw exceptions?
-  assert(opc["inputs"].is_array()) ;
-  assert(opc["outputs"].is_array()) ;
-  assert(opc["params"].is_array()) ;
-
   auto op = vl::nn::Convolution(globalContext) ;
-
-  if (opc.count("stride")) {
-    op.setStride(opc["stride"].get<vector<Int>>()) ;    
-  }
-
-  if (opc.count("padding")) {
-    op.setPadding(opc["padding"].get<vector<Int>>()) ;
-  }
-
-  if (opc.count("dilation")) {
-    op.setDilation(opc["dilation"].get<vector<Int>>()) ;
-  }
-
-  // Get input data
-  Tensor x = ws.get(opc["inputs"][0].get<string>()) ;
-  Tensor w = ws.get(opc["params"][0].get<string>()) ;
-  Tensor b = Tensor() ;
-  if (!areCompatible(x,w)) {
-    assert(false) ;
-  }
-  if (opc["hasBias"].get<bool>()) {
-    b = ws.get(opc["params"][1].get<string>()) ;
-    if (!areCompatible(x,b)) {
-      assert(false) ;
+  try {
+    if (opc.count("stride")) {
+      PNCHECK(op.setStride(opc["stride"].get<vector<Int>>())) ;
     }
+    if (opc.count("padding")) {
+      PNCHECK(op.setPadding(opc["padding"].get<vector<Int>>())) ;
+    }
+    if (opc.count("dilation")) {
+      PNCHECK(op.setDilation(opc["dilation"].get<vector<Int>>())) ;
+    }
+
+    // Get input data
+    Tensor x = ws.get(opc["inputs"][0].get<string>()) ;
+    Tensor w = ws.get(opc["params"][0].get<string>()) ;
+    Tensor b = Tensor() ;
+    if (opc["hasBias"].get<bool>()) {
+      b = ws.get(opc["params"][1].get<string>()) ;
+    }
+
+    // Call convolution
+    TensorShape yShape ;
+    PNCHECK(op.forwardShape(yShape, x, w)) ;
+
+    Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,yShape) ;
+    PNCHECK(op.forward(y,0,x,1,w,b)) ;
   }
-  if (!x) { return VLE_IllegalArgument ; }
-
-  // Call convolution
-  TensorShape yShape ;
-  error = op.forwardShape(yShape, x, w) ;
-  Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,yShape) ;
-
-  error = op.forward(y,0,x,1,w,b) ;
+  catch (json::exception& e) {
+    auto msg = ostringstream()<<"Conv: JSON error: "<<e.what() ;
+    return globalContext.setError(VLE_IllegalArgument, msg.str().c_str()) ;
+  }
   return error ;
 }

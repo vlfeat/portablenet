@@ -53,6 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2D7BBB8C1FAE0456006657C9 /* json.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
 		2D8D3E7A1F92E68900686D30 /* Program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cpp; sourceTree = "<group>"; };
 		2D8D3E7B1F92E68900686D30 /* Program.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Program.hpp; sourceTree = "<group>"; };
 		2D8D3E7D1F92E6CD00686D30 /* mcn.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mcn.hpp; sourceTree = "<group>"; };
@@ -60,7 +61,6 @@
 		2DA060431F910D46002A6BA3 /* PortableNet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PortableNet; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA060461F910D47002A6BA3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2DA061E81F910FC6002A6BA3 /* matconvnet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = matconvnet.xcodeproj; path = Lib/matconvnet/matconvnet.xcodeproj; sourceTree = "<group>"; };
-		2DC7B5FF1F923AC400C30533 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = Lib/json/src/json.hpp; sourceTree = SOURCE_ROOT; };
 		2DD0E70C1F9521BE00AC1911 /* Conv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Conv.cpp; sourceTree = "<group>"; };
 		2DD0E7131F9521EA00AC1911 /* Load.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Load.cpp; sourceTree = "<group>"; };
 		2DD917D91F914B390039CDCB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -83,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				2DA061E81F910FC6002A6BA3 /* matconvnet.xcodeproj */,
+				2D7BBB8C1FAE0456006657C9 /* json.hpp */,
 				2DA060451F910D46002A6BA3 /* PortableNet */,
 				2DA060441F910D46002A6BA3 /* Products */,
 				2DD917D71F91494C0039CDCB /* Frameworks */,
@@ -101,7 +102,6 @@
 			isa = PBXGroup;
 			children = (
 				2DD0E7121F9521C500AC1911 /* Commands */,
-				2DC7B5FF1F923AC400C30533 /* json.hpp */,
 				2DA060461F910D47002A6BA3 /* main.cpp */,
 				2D8D3E7A1F92E68900686D30 /* Program.cpp */,
 				2D8D3E7B1F92E68900686D30 /* Program.hpp */,

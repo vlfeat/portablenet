@@ -13,6 +13,10 @@
 #include "json.hpp"
 #include <map>
 
+#define PNCHECK(x) \
+{ auto error = (x) ; if (error != vl::VLE_Success) { \
+return globalContext.passError(error,__func__) ; } }
+
 class Program ;
 class Workspace ;
 
@@ -44,7 +48,7 @@ class Program
 public:
   void load(std::string fileName) ;
   void print() const ;
-  void execute(Workspace& ws) ;
+  vl::ErrorCode execute(Workspace& ws) ;
   nlohmann::json const& getSource() const ;
 
 private:
