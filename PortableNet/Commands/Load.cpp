@@ -63,6 +63,5 @@ ErrorCode Load(json const& op, Workspace& ws)
     auto msg = ostringstream()<<"Load: JSON error: "<<e.what() ;
     return globalContext.setError(VLE_IllegalArgument, msg.str().c_str()) ;
   }
-
   return VLE_Success ;
 }

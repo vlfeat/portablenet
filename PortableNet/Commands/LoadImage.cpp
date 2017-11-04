@@ -38,6 +38,5 @@ ErrorCode LoadImage(json const& opc, Workspace& ws)
     auto msg = ostringstream()<<"LoadImage: JSON error: "<<e.what() ;
     return globalContext.setError(VLE_IllegalArgument, msg.str().c_str()) ;
   }
-  
   return VLE_Success ;
 }

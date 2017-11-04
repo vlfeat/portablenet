@@ -23,7 +23,6 @@ using namespace nlohmann ;
 
 ErrorCode Conv(json const& opc, Workspace& ws)
 {
-  ErrorCode error = VLE_Success ;
   auto op = vl::nn::Convolution(globalContext) ;
   try {
     if (opc.count("stride")) {
@@ -55,5 +54,5 @@ ErrorCode Conv(json const& opc, Workspace& ws)
     auto msg = ostringstream()<<"Conv: JSON error: "<<e.what() ;
     return globalContext.setError(VLE_IllegalArgument, msg.str().c_str()) ;
   }
-  return error ;
+  return VLE_Success ;
 }
