@@ -126,9 +126,6 @@ void Workspace::baseName(std::string const& name)
   baseNameString = name ;
 }
 
-// MARK: - Commands
-
-
 // MARK: - Program
 
 vl::ErrorCode Program::execute(Workspace& ws)
