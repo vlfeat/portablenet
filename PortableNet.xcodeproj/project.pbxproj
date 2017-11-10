@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		12553A7B1FB0EC4800CD446A /* Pool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12553A7A1FB0EC4800CD446A /* Pool.cpp */; };
+		129764951FB4702900DF5E70 /* ReLU.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 129764941FB4702900DF5E70 /* ReLU.cpp */; };
 		2D8D3E7C1F92E68900686D30 /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D8D3E7A1F92E68900686D30 /* Program.cpp */; };
 		2D9325341F97FBE6001124B1 /* LoadImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D9325331F97FBE6001124B1 /* LoadImage.cpp */; };
 		2DA060471F910D47002A6BA3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DA060461F910D47002A6BA3 /* main.cpp */; };
@@ -53,6 +55,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		12553A7A1FB0EC4800CD446A /* Pool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Pool.cpp; sourceTree = "<group>"; };
+		129764941FB4702900DF5E70 /* ReLU.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ReLU.cpp; sourceTree = "<group>"; };
 		2D8D3E7A1F92E68900686D30 /* Program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cpp; sourceTree = "<group>"; };
 		2D8D3E7B1F92E68900686D30 /* Program.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Program.hpp; sourceTree = "<group>"; };
 		2D8D3E7D1F92E6CD00686D30 /* mcn.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mcn.hpp; sourceTree = "<group>"; };
@@ -123,6 +127,8 @@
 			isa = PBXGroup;
 			children = (
 				2DD0E70C1F9521BE00AC1911 /* Conv.cpp */,
+				129764941FB4702900DF5E70 /* ReLU.cpp */,
+				12553A7A1FB0EC4800CD446A /* Pool.cpp */,
 				2DD0E7131F9521EA00AC1911 /* Load.cpp */,
 				2D9325331F97FBE6001124B1 /* LoadImage.cpp */,
 			);
@@ -220,8 +226,10 @@
 			files = (
 				2D9325341F97FBE6001124B1 /* LoadImage.cpp in Sources */,
 				2DD0E70D1F9521BE00AC1911 /* Conv.cpp in Sources */,
+				129764951FB4702900DF5E70 /* ReLU.cpp in Sources */,
 				2DD0E7151F9521EA00AC1911 /* Load.cpp in Sources */,
 				2D8D3E7C1F92E68900686D30 /* Program.cpp in Sources */,
+				12553A7B1FB0EC4800CD446A /* Pool.cpp in Sources */,
 				2DA060471F910D47002A6BA3 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +352,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -352,6 +361,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

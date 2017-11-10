@@ -17,7 +17,7 @@ using namespace vl ;
 
 int main(int argc, const char * argv[])
 {
-  TensorShape y_shape(1,1,1,1) ;
+  /*TensorShape y_shape(1,1,1,1) ;
   auto y_size = y_shape.getNumElements() * sizeof(float) ;
   auto y_memory = make_unique<float[]>(y_size) ;
   Tensor y(y_shape, VLDT_Float, VLDT_CPU, y_memory.get(), y_size) ;
@@ -47,13 +47,13 @@ int main(int argc, const char * argv[])
   nn::Convolution op(ctx,1,1,0,0,0,0,1,1) ;
   op.forward(y,0,x,1,w,b) ;
 
-  cout << "y = " << y_memory[0] << endl ;
+  cout << "y = " << y_memory[0] << endl ;*/
 
   // Try some more complex code.
   Program program ;
   Workspace ws ;
-  ws.baseName("data/alexnet.mcn") ;
-  program.load("data/alexnet.mcn") ;
+  ws.baseName("data/lenet.mat") ;
+  program.load("data/lenet.mat") ;
   program.print() ;
   program.execute(ws) ;
   ws.print() ;
