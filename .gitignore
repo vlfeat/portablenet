@@ -1,2 +1,5 @@
 PortableNet/data
 PortableNet.xcodeproj/xcuserdata
+.DS_Store
+*~
+
