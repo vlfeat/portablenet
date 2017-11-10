@@ -19,8 +19,8 @@ int main(int argc, const char * argv[])
 {
   Program program ;
   Workspace ws ;
-  ws.baseName("data/alexnet.mcn") ;
-  program.load("data/alexnet.mcn") ;
+  ws.baseName("data/lenet.mat") ;
+  program.load("data/lenet.mat") ;
   program.print() ;
   {
     ErrorCode error = program.execute(ws) ;

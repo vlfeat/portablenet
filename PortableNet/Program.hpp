@@ -25,6 +25,8 @@ extern vl::Context globalContext ;
 vl::ErrorCode Load(nlohmann::json const& op, Workspace& ws) ;
 vl::ErrorCode LoadImage(nlohmann::json const& op, Workspace& ws) ;
 vl::ErrorCode Conv(nlohmann::json const& op, Workspace& ws) ;
+vl::ErrorCode Pool(nlohmann::json const& op, Workspace& ws);
+vl::ErrorCode ReLU(nlohmann::json const& op, Workspace& ws);
 
 class Workspace
 {

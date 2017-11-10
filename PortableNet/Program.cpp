@@ -139,6 +139,12 @@ vl::ErrorCode Program::execute(Workspace& ws)
     else if (type == "dagnn.Conv") {
       PNCHECK(Conv(op, ws)) ;
     }
+    else if (type == "dagnn.Pooling") {
+      Pool(op, ws);
+    }
+    else if (type == "dagnn.ReLU") {
+      ReLU(op, ws);
+    }
     else if (type == "LoadImage") {
       PNCHECK(LoadImage(op, ws)) ;
     }
