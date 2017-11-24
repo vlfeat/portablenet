@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <memory>
 
 #include "Program.hpp"
@@ -22,19 +23,20 @@ using namespace nlohmann;
 
 ErrorCode Pool(json const& opc, Workspace& ws)
 {
-  ErrorCode error = VLE_Success;
-  assert(opc["inputs"].is_array());
-  assert(opc["outputs"].is_array());
-  assert(opc["params"].is_array());
-  
   auto op = vl::nn::Pooling(globalContext);
   
+  try {
+  
   if (opc.count("padding")) {
-    op.setPadding(opc["padding"].get<vector<Int>>());
+    PNCHECK(op.setPadding(opc["padding"].get<vector<Int>>()));
   }
   
   if (opc.count("stride")) {
-    op.setStride(opc["stride"].get<vector<Int>>());
+    PNCHECK(op.setStride(opc["stride"].get<vector<Int>>()));
+  }
+    
+  if (opc.count("shape")) {
+      PNCHECK(op.setShape(opc["shape"].get<vector<Int>>()));
   }
   
   // Get input data
@@ -44,11 +46,16 @@ ErrorCode Pool(json const& opc, Workspace& ws)
   
   // Call pooling
   TensorShape yShape;
-  error = op.forwardShape(yShape, x);
+  PNCHECK(op.forwardShape(yShape, x));
+  
   Tensor y = ws.get(opc["outputs"][0].get<string>(), VLDT_Float, yShape);
-  
-  error = op.forward(y, x);
-  
-  return error;
+  PNCHECK(op.forward(y, x));
+    
+}
+  catch (json::exception& e) {
+    auto msg = ostringstream()<<"Conv: JSON error: "<<e.what() ;
+    return globalContext.setError(VLE_IllegalArgument, msg.str().c_str()) ;
+  }
+  return VLE_Success ;
 }
 

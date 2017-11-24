@@ -28,7 +28,6 @@ int main(int argc, const char * argv[])
       cerr << "Error: " << globalContext.getLastErrorMessage() << endl ;
     }
   }
-  ws.print() ;
-
+  ws.print();
   return 0;
 }

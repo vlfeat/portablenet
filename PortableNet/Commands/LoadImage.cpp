@@ -53,6 +53,7 @@ unsigned char test_image[784]= {
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
 };
 
+
 ErrorCode LoadImage(json const& opc, Workspace& ws)
 {
   try {
@@ -82,11 +83,15 @@ ErrorCode LoadImage(json const& opc, Workspace& ws)
            rand);
 
   assert(t.getNumElements() == sizeof(test_image)) ;
-
-  copy(test_image,
-       test_image + t.getNumDimensions(),
-       static_cast<float*>(t.getMemory()));
+  
+  float* td = static_cast<float*>(t.getMemory());
+  for (int i = 0; i < t.getNumElements(); i++)
+  {
+    td[i] = float(test_image[i]) - 33.3185f;
+  }
 
   // Todo: check the file was correctly read.
   return VLE_Success ;
 }
+
+

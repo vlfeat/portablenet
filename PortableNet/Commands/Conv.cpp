@@ -21,6 +21,8 @@ using namespace std ;
 using namespace vl ;
 using namespace nlohmann ;
 
+ofstream Testfile;
+
 ErrorCode Conv(json const& opc, Workspace& ws)
 {
   auto op = vl::nn::Convolution(globalContext) ;
@@ -42,7 +44,7 @@ ErrorCode Conv(json const& opc, Workspace& ws)
     if (opc["hasBias"].get<bool>()) {
       b = ws.get(opc["params"][1].get<string>()) ;
     }
-
+    
     // Call convolution
     TensorShape yShape ;
     PNCHECK(op.forwardShape(yShape, x, w)) ;
@@ -50,6 +52,7 @@ ErrorCode Conv(json const& opc, Workspace& ws)
     Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,yShape) ;
     PNCHECK(op.forward(y,0,x,1,w,b)) ;
   }
+  
   catch (json::exception& e) {
     auto msg = ostringstream()<<"Conv: JSON error: "<<e.what() ;
     return globalContext.setError(VLE_IllegalArgument, msg.str().c_str()) ;

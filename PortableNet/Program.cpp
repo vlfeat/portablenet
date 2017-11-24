@@ -20,6 +20,8 @@ using namespace vl ;
 
 vl::Context globalContext ;
 
+ofstream Resultfile;
+
 // MARK: - Workspace
 
 void Workspace::print() const
@@ -28,19 +30,23 @@ void Workspace::print() const
   for (auto const& entry : tensors) {
     auto const& name = entry.first ;
     auto const& tensor = entry.second ;
+    Resultfile.open(name, ios::out | ios::binary);
     cout << "\t" << name << ": [" ;
     for (auto d : tensor.getDimensions()) { cout << d << " " ; }
     cout << "] " ;
     if (tensor.getMemory()) {
       switch (tensor.getDataType()) {
         case VLDT_Double:
-          cout << static_cast<double const*>(tensor.getMemory())[0] ;
+          cout << static_cast<double const*>(tensor.getMemory())[0] << endl ;
+          Resultfile.write(reinterpret_cast<char const*>(static_cast<double const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(double)));
           break ;
         case VLDT_Float:
-          cout << static_cast<float const*>(tensor.getMemory())[0] ;
+          cout << static_cast<float const*>(tensor.getMemory())[0] << endl ;
+          Resultfile.write(reinterpret_cast<char const*>(static_cast<float const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(float)));
           break ;
         case VLDT_Char:
-          cout << static_cast<char const*>(tensor.getMemory())[0] ;
+          cout << static_cast<char const*>(tensor.getMemory())[0] << endl ;
+          Resultfile.write(reinterpret_cast<char const*>(static_cast<char const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(char)));
           break ;
       }
       cout << " ..." ;
@@ -48,7 +54,9 @@ void Workspace::print() const
       cout << "<No Data>" ;
     }
     cout << endl ;
+    Resultfile.close();
   }
+ 
 }
 
 /// Retrieve a given tensor from the workspace. If there is no such
@@ -140,10 +148,10 @@ vl::ErrorCode Program::execute(Workspace& ws)
       PNCHECK(Conv(op, ws)) ;
     }
     else if (type == "dagnn.Pooling") {
-      Pool(op, ws);
+      PNCHECK(Pool(op, ws));
     }
     else if (type == "dagnn.ReLU") {
-      ReLU(op, ws);
+      PNCHECK(ReLU(op, ws));
     }
     else if (type == "LoadImage") {
       PNCHECK(LoadImage(op, ws)) ;
