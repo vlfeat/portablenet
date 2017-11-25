@@ -58,7 +58,7 @@ ErrorCode LoadImage(json const& opc, Workspace& ws)
 {
   try {
     auto name = opc["outputs"][0].get<string>() ;
-    auto resizedShape = opc["resize"][0].get<vector<Int>>() ;
+    //auto resizedShape = opc["resize"][0].get<vector<Int>>() ;
 
     auto ts = TensorShape{28,28,1,1} ;
     auto t = ws.get(name,VLDT_Float,ts) ;
