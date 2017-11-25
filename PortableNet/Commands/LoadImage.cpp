@@ -57,41 +57,66 @@ unsigned char test_image[784]= {
 ErrorCode LoadImage(json const& opc, Workspace& ws)
 {
   try {
-    // Get the name of the output tensor.
     auto name = opc["outputs"][0].get<string>() ;
-    auto ts = TensorShape{224,224,3,1} ;
+    auto resizedShape = opc["resize"][0].get<vector<Int>>() ;
+
+    auto ts = TensorShape{28,28,1,1} ;
     auto t = ws.get(name,VLDT_Float,ts) ;
-    // Todo: actually load an image.
-    generate(static_cast<float*>(t.getMemory()),
-             static_cast<float*>(t.getMemory()) + t.getNumElements(),
-             rand);
-  }
-  catch (json::exception& e) {
+    assert(t.getNumElements() == sizeof(test_image)) ;
+
+    float* td = static_cast<float*>(t.getMemory());
+    for (int j = 0; j < 28 ; ++j) {
+      for (int i = 0; i < 28 ; ++i) {
+        td[i + 28*j] = float(test_image[j + 28*i]) - 33.3185f;
+      }
+    }
+  } catch (json::exception& e) {
     auto msg = ostringstream()<<"LoadImage: JSON error: "<<e.what() ;
     return globalContext.setError(VLE_IllegalArgument, msg.str().c_str()) ;
-  }
-
-  // Todo: error checking, gracefult exit, throw exceptions?
-  assert(opc["outputs"].is_array()) ;
-
-  // Get the name of the output tensor.
-  auto name = opc["outputs"][0].get<string>() ;
-  auto ts = TensorShape{28,28,1,1} ;
-  auto t = ws.get(name,VLDT_Float,ts) ;
-  generate(static_cast<float*>(t.getMemory()),
-           static_cast<float*>(t.getMemory()) + t.getNumElements(),
-           rand);
-
-  assert(t.getNumElements() == sizeof(test_image)) ;
-  
-  float* td = static_cast<float*>(t.getMemory());
-  for (int i = 0; i < t.getNumElements(); i++)
-  {
-    td[i] = float(test_image[i]) - 33.3185f;
   }
 
   // Todo: check the file was correctly read.
   return VLE_Success ;
 }
 
+//}
+//
+//  try {
+//    // Get the name of the output tensor.
+//    auto name = opc["outputs"][0].get<string>() ;
+//    auto ts = TensorShape{224,224,3,1} ;
+//    auto t = ws.get(name,VLDT_Float,ts) ;
+//    // Todo: actually load an image.
+//    generate(static_cast<float*>(t.getMemory()),
+//             static_cast<float*>(t.getMemory()) + t.getNumElements(),
+//             rand);
+//  }
+//  catch (json::exception& e) {
+//    auto msg = ostringstream()<<"LoadImage: JSON error: "<<e.what() ;
+//    return globalContext.setError(VLE_IllegalArgument, msg.str().c_str()) ;
+//  }
+//
+//  // Todo: error checking, gracefult exit, throw exceptions?
+//  assert(opc["outputs"].is_array()) ;
+//
+//  // Get the name of the output tensor.
+//  auto name = opc["outputs"][0].get<string>() ;
+//  auto ts = TensorShape{28,28,1,1} ;
+//  auto t = ws.get(name,VLDT_Float,ts) ;
+//  generate(static_cast<float*>(t.getMemory()),
+//           static_cast<float*>(t.getMemory()) + t.getNumElements(),
+//           rand);
+//
+//  assert(t.getNumElements() == sizeof(test_image)) ;
+//
+//  float* td = static_cast<float*>(t.getMemory());
+//  for (int i = 0; i < t.getNumElements(); i++)
+//  {
+//    td[i] = float(test_image[i]) - 33.3185f;
+//  }
+//
+//  // Todo: check the file was correctly read.
+//  return VLE_Success ;
+//}
+//
 
