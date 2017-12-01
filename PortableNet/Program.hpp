@@ -38,10 +38,13 @@ public:
   vl::Tensor get(std::string name, vl::DataType dt, vl::TensorShape const& shape) ;
   void remove(std::string name) ;
   std::string const& baseName() const ;
+  std::string const& inputName() const ;
   void baseName(std::string const& name) ;
-
+  void inputName(std::string const& inputFile) ;
+ 
 private:
-  std::string baseNameString ;
+  std::string baseNameString;
+  std::string inputFileName;
   std::map<std::string,vl::Tensor> tensors ;
 } ;
 

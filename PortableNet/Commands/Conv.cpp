@@ -21,7 +21,6 @@ using namespace std ;
 using namespace vl ;
 using namespace nlohmann ;
 
-ofstream Testfile;
 
 ErrorCode Conv(json const& opc, Workspace& ws)
 {

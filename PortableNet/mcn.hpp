@@ -12,5 +12,6 @@
 #include "../Lib/matconvnet/matlab/src/bits/data.hpp"
 #include "../Lib/matconvnet/matlab/src/bits/nnconv.hpp"
 #include "../Lib/matconvnet/matlab/src/bits/nnpooling.hpp"
+#include "../Lib/matconvnet/matlab/src/bits/imread.hpp"
 
 #endif /* mcn_h */

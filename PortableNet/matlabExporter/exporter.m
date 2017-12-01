@@ -1,12 +1,13 @@
 function exporter()
 
-run ../Lib/matconvnet/matlab/vl_setupnn
+run ../../../practical-cnn-2016a/matconvnet/matlab/vl_setupnn
 
-opts.outDir = 'data/alexnet.mcn' ;
+opts.outDir = '../data/lenet' ;
 mkdir(opts.outDir) ;
 
-% Load AlexNet model in DagNN format.
-net_ = load('data/models/imagenet-caffe-alex.mat') ;
+% Load lenet model in DagNN format.
+net_ = load('../../lenet.mat') ;
+net_ = net_.net;
 net = dagnn.DagNN.fromSimpleNN(net_) ;
 
 % -------------------------------------------------------------------------
@@ -32,8 +33,8 @@ order = net.getLayerExecutionOrder() ;
 op = struct('type','LoadImage',...
   'inputs',{{}},...
   'outputs',{net.layers(order(1)).inputs(1)}, ...
-  'reshape',[224 224], ...
-  'averageColor',[128 128 128], ...
+  'reshape',[28 28], ...
+  'averageColor',[33.3184], ...
   'dataType','single') ;
 netj.operations{end+1} = op ;
   

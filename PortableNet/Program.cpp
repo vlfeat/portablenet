@@ -20,44 +20,55 @@ using namespace vl ;
 
 vl::Context globalContext ;
 
-ofstream Resultfile;
+ofstream ResultFile ;
 
 // MARK: - Workspace
 
 void Workspace::print() const
 {
-  cout << "Workspace:" << endl ;
-  for (auto const& entry : tensors) {
-    auto const& name = entry.first ;
-    auto const& tensor = entry.second ;
-    Resultfile.open(name, ios::out | ios::binary);
-    cout << "\t" << name << ": [" ;
-    for (auto d : tensor.getDimensions()) { cout << d << " " ; }
-    cout << "] " ;
+  cout << "Results:" << endl ;
+  cout << "Classes with associated scores" << endl;
+  
+  // Construct a reverse iterator to read last element
+  map<std::string,vl::Tensor>::const_reverse_iterator rit;
+  rit = tensors.rbegin() ;
+  
+  auto const & tensor = rit->second;
+  
+  //for (auto const& entry : tensors) {
+    //auto const& name = entry.first ;
+    //auto const& tensor = entry.second ;
+    //Resultfile.open(name, ios::out | ios::binary);
+    //cout << "\t" << name << ": [" ;
+    //for (auto d : tensor.getDimensions()) { cout << d << " " ; }
+    //cout << "] " ;
     if (tensor.getMemory()) {
+      for (int counter = 0; counter < 10; counter++) {
       switch (tensor.getDataType()) {
         case VLDT_Double:
-          cout << static_cast<double const*>(tensor.getMemory())[0] << endl ;
-          Resultfile.write(reinterpret_cast<char const*>(static_cast<double const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(double)));
+          cout << "class: " << counter << "\t\t" << "score: " << static_cast<double const*>(tensor.getMemory())[counter] << endl ;
+          //Resultfile.write(reinterpret_cast<char const*>(static_cast<double const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(double)));
           break ;
         case VLDT_Float:
-          cout << static_cast<float const*>(tensor.getMemory())[0] << endl ;
-          Resultfile.write(reinterpret_cast<char const*>(static_cast<float const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(float)));
+          cout << "class: " << counter << "\t\t" << "score: " << static_cast<float const*>(tensor.getMemory())[counter] << endl ;
+          //Resultfile.write(reinterpret_cast<char const*>(static_cast<float const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(float)));
           break ;
         case VLDT_Char:
-          cout << static_cast<char const*>(tensor.getMemory())[0] << endl ;
-          Resultfile.write(reinterpret_cast<char const*>(static_cast<char const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(char)));
+          cout << "class: " << counter << "\t\t" << "score: " << static_cast<char const*>(tensor.getMemory())[counter] << endl ;
+          //Resultfile.write(reinterpret_cast<char const*>(static_cast<char const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(char)));
           break ;
       }
-      cout << " ..." ;
-    } else {
+      //cout << " ..." ;
+    }
+    }else {
       cout << "<No Data>" ;
     }
-    cout << endl ;
-    Resultfile.close();
+    //cout << endl ;
+    //Resultfile.close();
+  
   }
  
-}
+
 
 /// Retrieve a given tensor from the workspace. If there is no such
 /// a tensor, a null tensor is returned instead.
@@ -133,6 +144,17 @@ void Workspace::baseName(std::string const& name)
 {
   baseNameString = name ;
 }
+
+void Workspace::inputName(std::string const& inputFile)
+{
+  inputFileName = inputFile ;
+}
+
+std::string const & Workspace::inputName() const
+{
+  return inputFileName ;
+}
+
 
 // MARK: - Program
 
