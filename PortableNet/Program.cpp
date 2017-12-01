@@ -30,8 +30,10 @@ void Workspace::print() const
   cout << "Classes with associated scores" << endl;
   
   // Construct a reverse iterator to read last element
-  map<std::string,vl::Tensor>::const_reverse_iterator rit;
-  rit = tensors.rbegin() ;
+  //map<std::string,vl::Tensor>::const_reverse_iterator rit;
+  auto rit = tensors.rbegin() ;
+
+  assert(rit != tensors.rend()) ;
   
   auto const & tensor = rit->second;
   

@@ -10,6 +10,9 @@
 		12553A7B1FB0EC4800CD446A /* Pool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12553A7A1FB0EC4800CD446A /* Pool.cpp */; };
 		129764951FB4702900DF5E70 /* ReLU.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 129764941FB4702900DF5E70 /* ReLU.cpp */; };
 		12FFEC091FBA01FF00908DFE /* LoadImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FFEC081FBA01FF00908DFE /* LoadImage.cpp */; };
+		2D12E5EC1FD19B9900362E35 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D12E5E21FD19B3600362E35 /* CoreFoundation.framework */; };
+		2D12E5ED1FD19B9E00362E35 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D12E5E71FD19B3A00362E35 /* CoreGraphics.framework */; };
+		2D12E5EF1FD19BD900362E35 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D12E5EE1FD19BD400362E35 /* ImageIO.framework */; };
 		2D8D3E7C1F92E68900686D30 /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D8D3E7A1F92E68900686D30 /* Program.cpp */; };
 		2DA060471F910D47002A6BA3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DA060461F910D47002A6BA3 /* main.cpp */; };
 		2DD0E70D1F9521BE00AC1911 /* Conv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DD0E70C1F9521BE00AC1911 /* Conv.cpp */; };
@@ -58,6 +61,10 @@
 		12553A7A1FB0EC4800CD446A /* Pool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Pool.cpp; sourceTree = "<group>"; };
 		129764941FB4702900DF5E70 /* ReLU.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ReLU.cpp; sourceTree = "<group>"; };
 		12FFEC081FBA01FF00908DFE /* LoadImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoadImage.cpp; sourceTree = "<group>"; };
+		2D12E5E21FD19B3600362E35 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		2D12E5E71FD19B3A00362E35 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2D12E5EA1FD19B7700362E35 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		2D12E5EE1FD19BD400362E35 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		2D7BBB941FAE05EC006657C9 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = Lib/json/src/json.hpp; sourceTree = "<group>"; };
 		2D8D3E7A1F92E68900686D30 /* Program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cpp; sourceTree = "<group>"; };
 		2D8D3E7B1F92E68900686D30 /* Program.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Program.hpp; sourceTree = "<group>"; };
@@ -75,8 +82,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DD917E01F9159440039CDCB /* libmcn-lib-cpu.a in Frameworks */,
+				2D12E5EF1FD19BD900362E35 /* ImageIO.framework in Frameworks */,
+				2D12E5ED1FD19B9E00362E35 /* CoreGraphics.framework in Frameworks */,
+				2D12E5EC1FD19B9900362E35 /* CoreFoundation.framework in Frameworks */,
 				2DD917DA1F914B390039CDCB /* Accelerate.framework in Frameworks */,
+				2DD917E01F9159440039CDCB /* libmcn-lib-cpu.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +148,10 @@
 		2DD917D71F91494C0039CDCB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D12E5EE1FD19BD400362E35 /* ImageIO.framework */,
+				2D12E5EA1FD19B7700362E35 /* Quartz.framework */,
+				2D12E5E71FD19B3A00362E35 /* CoreGraphics.framework */,
+				2D12E5E21FD19B3600362E35 /* CoreFoundation.framework */,
 				2DD917D91F914B390039CDCB /* Accelerate.framework */,
 			);
 			name = Frameworks;

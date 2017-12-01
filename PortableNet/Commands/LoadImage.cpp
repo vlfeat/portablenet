@@ -37,21 +37,64 @@ ErrorCode LoadImage(json const& opc, Workspace& ws)
     // Read the shape of the input jpeg file
     const char * inputFilepointer = ws.inputName().c_str() ;
     ImageReader reader ;
-    ImageShape imageshape;
-    reader.readShape(imageshape, inputFilepointer) ;
+    ImageShape imageShape;
+    reader.readShape(imageShape, inputFilepointer) ;
+
+    // Allocate sufficiently large buffer
+    unique_ptr<float[]> buffer {new float [imageShape.height * imageShape.width * imageShape.depth]} ;
+    unique_ptr<float[]> temp {new float [imageShape.height * imageShape.width * imageShape.depth]} ;
 
     // Allocate the image in workspace
-    TensorShape tensorshape(imageshape.height, imageshape.width, imageshape.depth, 1);
-    auto tensor = ws.get(name,VLDT_Float,tensorshape) ;
+    TensorShape tensorShape(imageShape.height, imageShape.width, imageShape.depth, 1);
+    auto tensor = ws.get(name,VLDT_Float,tensorShape) ;
 
-    // Read the pixels and put in tensor form
-    reader.readPixels(static_cast<float *>(tensor.getMemory()), inputFilepointer) ;
+    // Read the pixels
+    reader.readPixels(buffer.get(), inputFilepointer) ;
 
-    // Reshape the tensor
+    // Resize and put in tensor form
+    //    vl::impl::imageResizeVertical(temp, inputPixels,
+    //                                  item->outputHeight,
+    //                                  item->shape.height,
+    //                                  item->shape.width,
+    //                                  item->shape.depth,
+    //                                  item->cropHeight,
+    //                                  item->cropOffsetY,
+    //                                  false, // flip
+    //                                  item->filterType) ;
+    //
+    //    vl::impl::imageResizeVertical(outputPixels, temp,
+    //                                  item->outputWidth,
+    //                                  item->shape.width,
+    //                                  item->outputHeight,
+    //                                  item->shape.depth,
+    //                                  item->cropWidth,
+    //                                  item->cropOffsetX,
+    //                                  item->flip,
+    //                                  item->filterType) ;
+
+    vl::impl::imageResizeVertical(temp.get(), buffer.get(),
+                                  28,
+                                  imageShape.height,
+                                  imageShape.width,
+                                  imageShape.depth,
+                                  28,
+                                  0,
+                                  false, // flip
+                                  vl::impl::ImageResizeFilter::kBilinear) ;
+
+    vl::impl::imageResizeVertical(static_cast<float*>(tensor.getMemory()), temp.get(),
+                                  28,
+                                  imageShape.width,
+                                  28,
+                                  imageShape.depth,
+                                  28,
+                                  0,
+                                  false, // flip
+                                  vl::impl::ImageResizeFilter::kBilinear) ;
 
     // Data preprocess by subtracting mean
     float * td = static_cast<float *>(tensor.getMemory());
-    for (int i = 0; i < 28 ; ++i) {
+    for (int i = 0; i < 28*28 ; ++i) {
       td[i] = td[i] - averageColor;
     }
 
