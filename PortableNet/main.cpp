@@ -17,13 +17,14 @@ using namespace vl ;
 
 int main(int argc, const char * argv[])
 {
-  for(int i = 0; i < argc; i++){
+  for(int i = 1; i < argc; i++){
+    cout << "Test " << i << endl;
     Program program ;
     Workspace ws ;
     ws.baseName("data/lenet") ;
     ws.inputName(argv[i]);
     program.load("data/lenet") ;
-    program.print() ;
+    //program.print() ;
     {
       ErrorCode error = program.execute(ws) ;
       if (error != VLE_Success) {

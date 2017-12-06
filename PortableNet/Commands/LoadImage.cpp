@@ -30,73 +30,66 @@ ErrorCode LoadImage(json const& opc, Workspace& ws)
 
     // Get the input image requirement
     auto RequiredShape = opc["reshape"].get<vector<Int>>() ;
+    ImageShape requiredShape(RequiredShape[0], RequiredShape[1], 1) ;
 
     // Get average colour for data preprocessing
     auto averageColor = opc["averageColor"].get<float>() ;
-
+    
     // Read the shape of the input jpeg file
     const char * inputFilepointer = ws.inputName().c_str() ;
     ImageReader reader ;
     ImageShape imageShape;
     reader.readShape(imageShape, inputFilepointer) ;
-
+    
     // Allocate sufficiently large buffer
     unique_ptr<float[]> buffer {new float [imageShape.height * imageShape.width * imageShape.depth]} ;
-    unique_ptr<float[]> temp {new float [imageShape.height * imageShape.width * imageShape.depth]} ;
-
-    // Allocate the image in workspace
-    TensorShape tensorShape(imageShape.height, imageShape.width, imageShape.depth, 1);
-    auto tensor = ws.get(name,VLDT_Float,tensorShape) ;
-
-    // Read the pixels
+    unique_ptr<float[]> temp {new float [imageShape.height * imageShape.width]} ;
+    unique_ptr<float[]> out {new float [requiredShape.height * requiredShape.width]} ;
+    
+    // Read the image
     reader.readPixels(buffer.get(), inputFilepointer) ;
-
-    // Resize and put in tensor form
-    //    vl::impl::imageResizeVertical(temp, inputPixels,
-    //                                  item->outputHeight,
-    //                                  item->shape.height,
-    //                                  item->shape.width,
-    //                                  item->shape.depth,
-    //                                  item->cropHeight,
-    //                                  item->cropOffsetY,
-    //                                  false, // flip
-    //                                  item->filterType) ;
-    //
-    //    vl::impl::imageResizeVertical(outputPixels, temp,
-    //                                  item->outputWidth,
-    //                                  item->shape.width,
-    //                                  item->outputHeight,
-    //                                  item->shape.depth,
-    //                                  item->cropWidth,
-    //                                  item->cropOffsetX,
-    //                                  item->flip,
-    //                                  item->filterType) ;
-
-    vl::impl::imageResizeVertical(temp.get(), buffer.get(),
-                                  28,
-                                  imageShape.height,
-                                  imageShape.width,
-                                  imageShape.depth,
-                                  28,
-                                  0,
-                                  false, // flip
-                                  vl::impl::ImageResizeFilter::kBilinear) ;
-
-    vl::impl::imageResizeVertical(static_cast<float*>(tensor.getMemory()), temp.get(),
-                                  28,
-                                  imageShape.width,
-                                  28,
-                                  imageShape.depth,
-                                  28,
-                                  0,
-                                  false, // flip
-                                  vl::impl::ImageResizeFilter::kBilinear) ;
-
-    // Data preprocess by subtracting mean
-    float * td = static_cast<float *>(tensor.getMemory());
-    for (int i = 0; i < 28*28 ; ++i) {
-      td[i] = td[i] - averageColor;
+    
+    // Change the result to grayscale
+    // 0.2989 * R + 0.5870 * G + 0.1140 * B
+    if (imageShape.depth == 3){
+    for (int j = 0; j < imageShape.height * imageShape.width; j++) {
+      temp.get()[j] = 0.2989 * buffer.get()[j] + 0.5870 * buffer.get()[j + imageShape.height * imageShape.width] + 0.1140 * buffer.get()[j + 2 * imageShape.height * imageShape.width] ;
+      }
+      // Change imageshape correspondingly
+      imageShape.depth = 1 ;
+    
+      // Initialize input and output in the form of image
+      Image input(imageShape, static_cast<float*>(temp.get())) ;
+      Image output(requiredShape, static_cast<float*>(out.get())) ;
+      
+      // Perform resize
+      vl::impl::resizeImage(output, input) ;
+      
+    }else{
+      Image input(imageShape, static_cast<float*>(buffer.get())) ;
+      Image output(requiredShape, static_cast<float*>(out.get())) ;
+      
+      // Perform resize
+      vl::impl::resizeImage(output, input) ;
     }
+    
+    // Allocate the image in workspace
+    TensorShape tensorShape(RequiredShape[0], RequiredShape[1], 1, 1);
+    auto tensor = ws.get(name,VLDT_Float,tensorShape) ;
+    
+    Tensor tensorTemp(tensorShape, VLDT_Float, VLDT_CPU, static_cast<void *>(out.get()), tensorShape.getNumElements()*sizeof(float)) ;
+    
+    // Transpose the resized image and preprocess by subtracting mean
+    for (int j = 0; j < requiredShape.height ; ++j) {
+      for (int i = 0; i < requiredShape.width ; ++i) {
+        static_cast<float *>(tensor.getMemory())[i + requiredShape.height * j] = static_cast<float *>(tensorTemp.getMemory())[j + requiredShape.width * i] - averageColor;
+      }
+    }
+    
+//    ofstream resultFile;
+//    resultFile.open("image", ios::out | ios::binary);
+//    resultFile.write(static_cast<const char*>(tensor.getMemory()), 28*28*sizeof(float)) ;
+//    resultFile.close();
 
   } catch (json::exception& e) {
     auto msg = ostringstream()<<"LoadImage: JSON error: "<<e.what() ;

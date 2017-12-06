@@ -26,10 +26,11 @@ ofstream ResultFile ;
 
 void Workspace::print() const
 {
+  cout << endl;
   cout << "Results:" << endl ;
   cout << "Classes with associated scores" << endl;
   
-  // Construct a reverse iterator to read last element
+  // Construct a reverse iterator to read last element,
   //map<std::string,vl::Tensor>::const_reverse_iterator rit;
   auto rit = tensors.rbegin() ;
 
@@ -37,40 +38,26 @@ void Workspace::print() const
   
   auto const & tensor = rit->second;
   
-  //for (auto const& entry : tensors) {
-    //auto const& name = entry.first ;
-    //auto const& tensor = entry.second ;
-    //Resultfile.open(name, ios::out | ios::binary);
-    //cout << "\t" << name << ": [" ;
-    //for (auto d : tensor.getDimensions()) { cout << d << " " ; }
-    //cout << "] " ;
     if (tensor.getMemory()) {
       for (int counter = 0; counter < 10; counter++) {
       switch (tensor.getDataType()) {
         case VLDT_Double:
           cout << "class: " << counter << "\t\t" << "score: " << static_cast<double const*>(tensor.getMemory())[counter] << endl ;
-          //Resultfile.write(reinterpret_cast<char const*>(static_cast<double const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(double)));
           break ;
         case VLDT_Float:
           cout << "class: " << counter << "\t\t" << "score: " << static_cast<float const*>(tensor.getMemory())[counter] << endl ;
-          //Resultfile.write(reinterpret_cast<char const*>(static_cast<float const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(float)));
           break ;
         case VLDT_Char:
           cout << "class: " << counter << "\t\t" << "score: " << static_cast<char const*>(tensor.getMemory())[counter] << endl ;
-          //Resultfile.write(reinterpret_cast<char const*>(static_cast<char const*>(tensor.getMemory())), (tensor.getNumElements()*sizeof(char)));
           break ;
       }
-      //cout << " ..." ;
     }
+      cout << endl;
+      
     }else {
       cout << "<No Data>" ;
     }
-    //cout << endl ;
-    //Resultfile.close();
-  
   }
- 
-
 
 /// Retrieve a given tensor from the workspace. If there is no such
 /// a tensor, a null tensor is returned instead.
