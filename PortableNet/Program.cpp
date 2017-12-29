@@ -13,6 +13,8 @@
 #include <fstream>
 #include <memory>
 #include <cstdio>
+#include <algorithm>
+#include <cmath>
 
 using namespace std ;
 using namespace nlohmann ;
@@ -20,16 +22,15 @@ using namespace vl ;
 
 vl::Context globalContext ;
 
-ofstream ResultFile ;
+typedef enum {
+  MAX ,
+  FULL
+} printMethod ;
 
 // MARK: - Workspace
 
 void Workspace::print() const
 {
-  cout << endl;
-  cout << "Results:" << endl ;
-  cout << "Classes with associated scores" << endl;
-  
   // Construct a reverse iterator to read last element,
   //map<std::string,vl::Tensor>::const_reverse_iterator rit;
   auto rit = tensors.rbegin() ;
@@ -38,19 +39,68 @@ void Workspace::print() const
   
   auto const & tensor = rit->second;
   
-    if (tensor.getMemory()) {
-      for (int counter = 0; counter < 10; counter++) {
-      switch (tensor.getDataType()) {
-        case VLDT_Double:
-          cout << "class: " << counter << "\t\t" << "score: " << static_cast<double const*>(tensor.getMemory())[counter] << endl ;
+  double max_double = 0 ;
+  int max_counter = 0 ;
+  float max_float = 0 ;
+  char max_char = 0 ;
+  
+  if (tensor.getMemory()) {
+      switch (printmethod()) {
+          case MAX:
+          cout << endl ;
+          cout << "Results:" << endl ;
+          cout << "Class with max score" << endl ;
+      
+            switch (tensor.getDataType()) {
+              case VLDT_Double:
+                for (int counter = 0; counter < 10; counter++) {
+                if (abs(static_cast<double const*>(tensor.getMemory())[counter]) > max_double) {
+                  max_double = abs(static_cast<double const*>(tensor.getMemory())[counter]) ;
+                  max_counter++ ;
+                }
+                }
+                cout << "class: " << max_counter << "\t\t" << "score: " << max_double << endl ;
+                break ;
+              case VLDT_Float:
+                for (int counter = 0; counter < 10; counter++) {
+                if (abs(static_cast<float const*>(tensor.getMemory())[counter]) > max_float) {
+                  max_float = abs(static_cast<float const*>(tensor.getMemory())[counter]) ;
+                  max_counter++ ;
+                }
+                }
+                cout << "class: " << max_counter << "\t\t" << "score: " << max_float << endl ;
+                break ;
+              case VLDT_Char:
+                for (int counter = 0; counter < 10; counter++) {
+                if (abs(static_cast<char const*>(tensor.getMemory())[counter]) > max_char) {
+                  max_char = abs(static_cast<char const*>(tensor.getMemory())[counter]) ;
+                  max_counter++ ;
+                }
+                }
+                cout << "class: " << max_counter << "\t\t" << "score: " << max_char << endl ;
+                break ;
+          }
           break ;
-        case VLDT_Float:
-          cout << "class: " << counter << "\t\t" << "score: " << static_cast<float const*>(tensor.getMemory())[counter] << endl ;
-          break ;
-        case VLDT_Char:
-          cout << "class: " << counter << "\t\t" << "score: " << static_cast<char const*>(tensor.getMemory())[counter] << endl ;
-          break ;
+          
+          case FULL:
+          cout << endl ;
+          cout << "Results:" << endl ;
+          cout << "Classes with associated scores" << endl ;
+          
+          for (int counter = 0; counter < 10; counter++) {
+            switch (tensor.getDataType()) {
+              case VLDT_Double:
+                cout << "class: " << counter << "\t\t" << "score: " << static_cast<double const*>(tensor.getMemory())[counter] << endl ;
+                break ;
+              case VLDT_Float:
+                cout << "class: " << counter << "\t\t" << "score: " << static_cast<float const*>(tensor.getMemory())[counter] << endl ;
+                break ;
+              case VLDT_Char:
+                cout << "class: " << counter << "\t\t" << "score: " << static_cast<char const*>(tensor.getMemory())[counter] << endl ;
+                break ;
+            }
       }
+      
     }
       cout << endl;
       
@@ -142,6 +192,16 @@ void Workspace::inputName(std::string const& inputFile)
 std::string const & Workspace::inputName() const
 {
   return inputFileName ;
+}
+
+void Workspace::printMethod(int const & printMethod)
+{
+  method =  printMethod ;
+}
+
+int const & Workspace::printmethod() const
+{
+  return method ;
 }
 
 

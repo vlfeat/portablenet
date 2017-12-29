@@ -39,12 +39,15 @@ public:
   void remove(std::string name) ;
   std::string const& baseName() const ;
   std::string const& inputName() const ;
+  int const& printmethod() const ;
   void baseName(std::string const& name) ;
   void inputName(std::string const& inputFile) ;
+  void printMethod(int const& printMethod) ;
  
 private:
   std::string baseNameString;
   std::string inputFileName;
+  int method;
   std::map<std::string,vl::Tensor> tensors ;
 } ;
 

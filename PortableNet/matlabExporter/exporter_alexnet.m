@@ -1,14 +1,16 @@
 function exporter()
 
 run ../../../practical-cnn-2017a/matconvnet/matlab/vl_setupnn
-
-opts.outDir = '../data/lenet' ;
-mkdir(opts.outDir) ;
+cd ../../../practical-cnn-2017a/matconvnet/matlab/examples/imagenet
 
 % Load lenet model in DagNN format.
-net_ = load('../../lenet.mat') ;
-net_ = net_.net ;
-net = dagnn.DagNN.fromSimpleNN(net_) ;
+net = cnn_imagenet_init ;
+net = dagnn.DagNN.fromSimpleNN(net) ;
+
+cd ../../../../../portablenet/Portablenet/matlabExporter
+
+opts.outDir = '../data/alexnet' ;
+mkdir(opts.outDir) ;
 
 % -------------------------------------------------------------------------
 % Create list of operation
@@ -33,8 +35,8 @@ order = net.getLayerExecutionOrder() ;
 op = struct('type','LoadImage',...
   'inputs',{{}},...
   'outputs',{net.layers(order(1)).inputs(1)}, ...
-  'reshape',[28 28], ...
-  'averageColor',[33.3184], ...
+  'reshape',[227 227 3], ...
+  'averageColor',[114.5527 114.2100 114.5922], ...
   'dataType','single') ;
 netj.operations{end+1} = op ;
   
@@ -63,7 +65,7 @@ for i = 1:numel(order)
         'stride',  bk.stride)) ;
     case 'dagnn.LRN'
       op = merge(op, struct(...
-        'param', bk.param)) ;
+        'param', bk.param)) ;    
   end
   netj.operations{end+1} = op ;
 end
