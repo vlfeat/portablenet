@@ -18,18 +18,19 @@ using namespace vl ;
 int main(int argc, const char * argv[])
 {
   for(int i = 1; i < argc; i++){
+    cout << endl ;
     cout << "Test " << i << endl;
-    cout << "Enter 0 if you want to output the class with maximum probability" << endl ;
-    cout << "Enter 1 if you want to output all classes with associated probability" << endl ;
+    cout << "Enter 0 if you want to output top 1 class with maximum probability" << endl ;
+    cout << "Enter 1 if you want to output top 5 classes with associated probability" << endl ;
     int option ;
     cin >> option ;
     Program program ;
     Workspace ws ;
-    ws.baseName("data/lenet") ;
+    ws.baseName("data/alexnet") ;
     ws.inputName(argv[i]);
     ws.printMethod(option);
-    program.load("data/lenet") ;
-    //program.print() ;
+    program.load("data/alexnet") ;
+    program.print() ;
     {
       ErrorCode error = program.execute(ws) ;
       if (error != VLE_Success) {
@@ -40,3 +41,4 @@ int main(int argc, const char * argv[])
 }
   return 0;
 }
+  

@@ -50,6 +50,11 @@ ErrorCode Pool(json const& opc, Workspace& ws)
   
   Tensor y = ws.get(opc["outputs"][0].get<string>(), VLDT_Float, yShape);
   PNCHECK(op.forward(y, x));
+  
+//    ofstream resultFile;
+//    resultFile.open("result", ios::out | ios::binary);
+//    resultFile.write(static_cast<const char *>(y.getMemory()), yShape.getHeight()*yShape.getWidth()*yShape.getCardinality()*yShape.getNumChannels()*sizeof(float)) ;
+//    resultFile.close();
     
 }
   catch (json::exception& e) {

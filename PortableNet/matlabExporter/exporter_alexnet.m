@@ -1,13 +1,14 @@
 function exporter()
 
-run ../../../practical-cnn-2017a/matconvnet/matlab/vl_setupnn
-cd ../../../practical-cnn-2017a/matconvnet/matlab/examples/imagenet
+% Setup MatConvNet.
+run(fullfile(fileparts(mfilename('fullpath')), ...
+ '..', '..', '..','practical-cnn-2017a', 'matconvnet','matlab', 'vl_setupnn.m')) ;
 
-% Load lenet model in DagNN format.
-net = cnn_imagenet_init ;
+% Load the model and upgrade it to MatConvNet current version.
+net = load('../data/alexnet/imagenet-caffe-alex.mat') ;
+net = vl_simplenn_tidy(net) ;
+
 net = dagnn.DagNN.fromSimpleNN(net) ;
-
-cd ../../../../../portablenet/Portablenet/matlabExporter
 
 opts.outDir = '../data/alexnet' ;
 mkdir(opts.outDir) ;
@@ -36,7 +37,6 @@ op = struct('type','LoadImage',...
   'inputs',{{}},...
   'outputs',{net.layers(order(1)).inputs(1)}, ...
   'reshape',[227 227 3], ...
-  'averageColor',[114.5527 114.2100 114.5922], ...
   'dataType','single') ;
 netj.operations{end+1} = op ;
   
@@ -65,7 +65,7 @@ for i = 1:numel(order)
         'stride',  bk.stride)) ;
     case 'dagnn.LRN'
       op = merge(op, struct(...
-        'param', bk.param)) ;    
+        'param', bk.param)) ;
   end
   netj.operations{end+1} = op ;
 end
@@ -73,15 +73,28 @@ end
 % Write data out.
 json = jsonencode(netj) ;
 exportText(fullfile(opts.outDir,'net.json'),json) ;
+exportDescription(fullfile(opts.outDir,'description.txt'),net.meta.classes.description) ;
 for i = 1:numel(net.params)
   exportBlob(fullfile(opts.outDir,sprintf('%s.tensor', net.params(i).name)), ...
     net.params(i).value) ;
 end
 
+exportBlob(fullfile(opts.outDir,sprintf('averageColour.tensor')),single(net.meta.normalization.averageImage));
+
 function exportText(fileName,string)
 f=fopen(fileName,'w');
 fwrite(f,string);
 fclose(f) ;
+
+function exportDescription(fileName,cell)
+f=fopen(fileName,'w');
+for i = 1:1000
+fwrite(f,cell{i});
+fwrite(f,"|");
+end
+fclose(f) ;
+
+
 
 function exportBlob(fileName,blob)
 f=fopen(fileName,'wb');

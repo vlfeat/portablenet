@@ -23,87 +23,199 @@ using namespace vl ;
 vl::Context globalContext ;
 
 typedef enum {
-  MAX ,
-  FULL
+  MAX1 ,
+  MAX5
 } printMethod ;
 
 // MARK: - Workspace
 
 void Workspace::print() const
 {
-  // Construct a reverse iterator to read last element,
-  //map<std::string,vl::Tensor>::const_reverse_iterator rit;
-  auto rit = tensors.rbegin() ;
 
-  assert(rit != tensors.rend()) ;
+//  auto rit = tensors.rbegin() ;
+//
+//  assert(rit != tensors.rend()) ;
+//
+//  auto const & tensor = rit->second;
   
-  auto const & tensor = rit->second;
+  // Search if such a tensor exists.
+  Tensor tensor ;
   
+  auto const& found = tensors.find("x21") ;
+  if (found != tensors.end()) {tensor = found->second ; }
+  
+  // Initialize counter
   double max_double = 0 ;
   int max_counter = 0 ;
   float max_float = 0 ;
   char max_char = 0 ;
   
+  // Initialize counter for max 5 output
+  vector<bool> tracker(1000, false) ;
+  const int n = 5 ;
+  vector<double> topN_double ;
+  vector<float> topN_float ;
+  vector<char> topN_char ;
+  vector<int> topNIndex ;
+  
   if (tensor.getMemory()) {
       switch (printmethod()) {
-          case MAX:
+          case MAX1:
           cout << endl ;
           cout << "Results:" << endl ;
           cout << "Class with max score" << endl ;
       
             switch (tensor.getDataType()) {
-              case VLDT_Double:
-                for (int counter = 0; counter < 10; counter++) {
+              case VLDT_Double: {
+                for (int counter = 0; counter < 1000; counter++) {
                 if (abs(static_cast<double const*>(tensor.getMemory())[counter]) > max_double) {
                   max_double = abs(static_cast<double const*>(tensor.getMemory())[counter]) ;
-                  max_counter++ ;
+                  max_counter = counter ;
                 }
                 }
-                cout << "class: " << max_counter << "\t\t" << "score: " << max_double << endl ;
+                // Find the class description
+                auto const& label = descriptions.find(max_counter) ;
+                cout << "class: " << label->second << "\t\t" << "score: " << max_double << endl ;
                 break ;
-              case VLDT_Float:
-                for (int counter = 0; counter < 10; counter++) {
+              }
+              case VLDT_Float:{
+                for (int counter = 0; counter < 1000; counter++) {
                 if (abs(static_cast<float const*>(tensor.getMemory())[counter]) > max_float) {
                   max_float = abs(static_cast<float const*>(tensor.getMemory())[counter]) ;
-                  max_counter++ ;
+                  max_counter = counter ;
                 }
                 }
-                cout << "class: " << max_counter << "\t\t" << "score: " << max_float << endl ;
+                // Find the class description
+                auto const& label = descriptions.find(max_counter) ;
+                cout << "class: " << label->second << "\t\t" << "score: " << max_float << endl ;
                 break ;
-              case VLDT_Char:
-                for (int counter = 0; counter < 10; counter++) {
+              }
+              case VLDT_Char:{
+                for (int counter = 0; counter < 1000; counter++) {
                 if (abs(static_cast<char const*>(tensor.getMemory())[counter]) > max_char) {
                   max_char = abs(static_cast<char const*>(tensor.getMemory())[counter]) ;
-                  max_counter++ ;
+                  max_counter = counter;
                 }
                 }
-                cout << "class: " << max_counter << "\t\t" << "score: " << max_char << endl ;
+                // Find the class description
+                auto const& label = descriptions.find(max_counter) ;
+                cout << "class: " << label->second << "\t\t" << "score: " << max_char << endl ;
                 break ;
+              }
           }
           break ;
           
-          case FULL:
+          case MAX5:
           cout << endl ;
           cout << "Results:" << endl ;
-          cout << "Classes with associated scores" << endl ;
+          cout << "Top 5 Classes with associated scores" << endl ;
           
-          for (int counter = 0; counter < 10; counter++) {
-            switch (tensor.getDataType()) {
-              case VLDT_Double:
-                cout << "class: " << counter << "\t\t" << "score: " << static_cast<double const*>(tensor.getMemory())[counter] << endl ;
-                break ;
-              case VLDT_Float:
-                cout << "class: " << counter << "\t\t" << "score: " << static_cast<float const*>(tensor.getMemory())[counter] << endl ;
-                break ;
-              case VLDT_Char:
-                cout << "class: " << counter << "\t\t" << "score: " << static_cast<char const*>(tensor.getMemory())[counter] << endl ;
-                break ;
-            }
-      }
+          switch (tensor.getDataType()) {
+            case VLDT_Double:
+              
+              for(int i = 0; i < n; i++){
+                int unmarked_index = 0 ;
+                for(; unmarked_index < tracker.size(); unmarked_index++){
+                  if(!tracker[unmarked_index]){
+                    break ;
+                  }
+                }
+                
+                double max = abs(static_cast<double const*>(tensor.getMemory())[unmarked_index]) ;
+                int max_index = unmarked_index ;
+                for (int j = unmarked_index + 1; j < tracker.size(); j++) {
+                  if(!tracker[j] && abs(static_cast<double const*>(tensor.getMemory())[j]) > max){
+                    max = abs(static_cast<double const*>(tensor.getMemory())[j]) ;
+                    max_index = j ;
+                  }
+                }
+                tracker[max_index] = true ;
+                topN_double.push_back(max) ;
+                topNIndex.push_back(max_index) ;
+              }
+              
+              for(int i = 0; i < topN_double.size(); i++){
+                // Find the class description
+                auto const& label = descriptions.find(topNIndex[i]) ;
+                cout << "class: " << label->second << "\t\t" << "score: " << topN_double[i] << endl ;
+              }
+            break ;
+                
+            case VLDT_Float:
+                for(int i = 0; i < n; i++){
+                  int unmarked_index = 0 ;
+                  for(; unmarked_index < tracker.size(); unmarked_index++){
+                    if(!tracker[unmarked_index]){
+                      break ;
+                    }
+                  }
+                  
+                  float max = abs(static_cast<float const*>(tensor.getMemory())[unmarked_index]) ;
+                  int max_index = unmarked_index ;
+                  for (int j = unmarked_index + 1; j < tracker.size(); j++) {
+                    if(!tracker[j] && abs(static_cast<float const*>(tensor.getMemory())[j]) > max){
+                      max = abs(static_cast<float const*>(tensor.getMemory())[j]) ;
+                      max_index = j ;
+                    }
+                  }
+                  tracker[max_index] = true ;
+                  topN_float.push_back(max) ;
+                  topNIndex.push_back(max_index) ;
+                }
+              
+              for(int i = 0; i < topN_float.size(); i++){
+                // Find the class description
+                auto const& label = descriptions.find(topNIndex[i]) ;
+                cout << "class: " << label->second << "\t\t" << "score: " << topN_float[i] << endl ;
+              }
+              break ;
+                  
+            case VLDT_Char:
+                  for(int i = 0; i < n; i++){
+                    int unmarked_index = 0 ;
+                    for(; unmarked_index < tracker.size(); unmarked_index++){
+                      if(!tracker[unmarked_index]){
+                        break ;
+                      }
+                    }
+                    
+                    char max = abs(static_cast<char const*>(tensor.getMemory())[unmarked_index]) ;
+                    int max_index = unmarked_index ;
+                    for (int j = unmarked_index + 1; j < tracker.size(); j++) {
+                      if(!tracker[j] && abs(static_cast<char const*>(tensor.getMemory())[j]) > max){
+                        max = abs(static_cast<char const*>(tensor.getMemory())[j]) ;
+                        max_index = j ;
+                      }
+                    }
+                    tracker[max_index] = true ;
+                    topN_char.push_back(max) ;
+                    topNIndex.push_back(max_index) ;
+                  }
+              
+              for(int i = 0; i < topN_char.size(); i++){
+                // Find the class description
+                auto const& label = descriptions.find(topNIndex[i]) ;
+                cout << "class: " << label->second << "\t\t" << "score: " << topN_char[i] << endl ;
+              }
+              break ;
+          
+//          for (int counter = 0; counter < 1000; counter++) {
+//            switch (tensor.getDataType()) {
+//              case VLDT_Double:
+//                cout << "class: " << counter << "\t\t" << "score: " << static_cast<double const*>(tensor.getMemory())[counter] << endl ;
+//                break ;
+//              case VLDT_Float:
+//                cout << "class: " << counter << "\t\t" << "score: " << static_cast<float const*>(tensor.getMemory())[counter] << endl ;
+//                break ;
+//              case VLDT_Char:
+//                cout << "class: " << counter << "\t\t" << "score: " << static_cast<char const*>(tensor.getMemory())[counter] << endl ;
+//                break ;
+//            }
+//      }
       
     }
       cout << endl;
-      
+      }
     }else {
       cout << "<No Data>" ;
     }
@@ -133,7 +245,7 @@ vl::Tensor Workspace::get(string name, DataType dt, TensorShape const& shape)
       return tensor ;
     }
   }
-
+  
   // No matching tensor found; create a new one.
   remove(name) ;
   size_t numBytes = shape.getNumElements() * getDataTypeSizeInBytes(dt) ;
@@ -204,11 +316,38 @@ int const & Workspace::printmethod() const
   return method ;
 }
 
+vl::Tensor & Workspace::getAverageColour(vl::DataType dt, vl::TensorShape const & shape)
+{
+  // Create a new one.
+  size_t numBytes = shape.getNumElements() * getDataTypeSizeInBytes(dt) ;
+  void* memory = malloc(numBytes) ;
+  assert(memory) ;
+  if (memory == NULL) {
+    // Throw or return null tensor?
+    numBytes = 0 ;
+  }
+  Tensor tensor(shape, dt, VLDT_CPU, memory, numBytes) ;
+
+  averageColour = tensor ;
+  
+  return averageColour ;
+}
+
+vl::Tensor & Workspace::colour(){return averageColour;}
+
+// Allocate class description in workspace
+void Workspace::getDescription(int key, std::string substring )
+{
+  descriptions[key] = substring ;
+}
 
 // MARK: - Program
 
 vl::ErrorCode Program::execute(Workspace& ws)
 {
+  // cout << "Executing load average colour of image" << endl ;
+  PNCHECK(LoadMeta(ws)) ;
+  
   for (auto const& op : source["operations"]) {
     auto type = op["type"].get<string>() ;
     cout << "Executing " << type << endl ;
@@ -222,7 +361,16 @@ vl::ErrorCode Program::execute(Workspace& ws)
       PNCHECK(Pool(op, ws));
     }
     else if (type == "dagnn.ReLU") {
-      PNCHECK(ReLU(op, ws));
+      PNCHECK(ReLU(op, ws)) ;
+    }
+    else if (type == "dagnn.LRN") {
+      PNCHECK(Norm(op, ws)) ;
+    }
+    else if (type == "dagnn.DropOut") {
+      PNCHECK(DropOut(op, ws)) ;
+    }
+    else if (type == "dagnn.SoftMax") {
+      PNCHECK(SoftMax(op, ws)) ;
     }
     else if (type == "LoadImage") {
       PNCHECK(LoadImage(op, ws)) ;
@@ -245,6 +393,7 @@ void Program::load(std::string fileName)
   jsonFile >> source ;
 
   // Todo: catch errors.
+  
 }
 
 void Program::print() const

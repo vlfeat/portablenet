@@ -49,6 +49,10 @@ ErrorCode ReLU(json const& opc, Workspace& ws)
      YmemoryFloat[i] = XmemoryFloat[i];
     }
   }
+//  ofstream resultFile;
+//  resultFile.open("result", ios::out | ios::binary);
+//  resultFile.write(static_cast<const char *>(y.getMemory()), x.getHeight()*x.getWidth()*x.getCardinality()*x.getNumChannels()*sizeof(float)) ;
+//  resultFile.close();
   
   return error;
 }

@@ -13,6 +13,7 @@
 #include "../Lib/matconvnet/matlab/src/bits/nnconv.hpp"
 #include "../Lib/matconvnet/matlab/src/bits/nnpooling.hpp"
 #include "../Lib/matconvnet/matlab/src/bits/imread.hpp"
+#include "../Lib/matconvnet/matlab/src/bits/nnnormalize.hpp"
 #include "../Lib/matconvnet/matlab/src/bits/impl/imread_helpers.hpp"
 
 

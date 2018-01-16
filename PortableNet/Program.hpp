@@ -25,8 +25,12 @@ extern vl::Context globalContext ;
 vl::ErrorCode Load(nlohmann::json const& op, Workspace& ws) ;
 vl::ErrorCode LoadImage(nlohmann::json const& op, Workspace& ws) ;
 vl::ErrorCode Conv(nlohmann::json const& op, Workspace& ws) ;
-vl::ErrorCode Pool(nlohmann::json const& op, Workspace& ws);
-vl::ErrorCode ReLU(nlohmann::json const& op, Workspace& ws);
+vl::ErrorCode Pool(nlohmann::json const& op, Workspace& ws) ;
+vl::ErrorCode ReLU(nlohmann::json const& op, Workspace& ws) ;
+vl::ErrorCode Norm(nlohmann::json const& op, Workspace& ws) ;
+vl::ErrorCode DropOut(nlohmann::json const& op, Workspace& ws);
+vl::ErrorCode LoadMeta(Workspace& ws) ;
+vl::ErrorCode SoftMax(nlohmann::json const& op, Workspace& ws);
 
 class Workspace
 {
@@ -43,12 +47,17 @@ public:
   void baseName(std::string const& name) ;
   void inputName(std::string const& inputFile) ;
   void printMethod(int const& printMethod) ;
- 
+  vl::Tensor & getAverageColour(vl::DataType dt, vl::TensorShape const & shape) ;
+  vl::Tensor & colour() ;
+  void getDescription(int key, std::string substring) ;
+  
 private:
-  std::string baseNameString;
-  std::string inputFileName;
-  int method;
+  std::string baseNameString ;
+  std::string inputFileName ;
+  vl::Tensor averageColour ;
+  int method ;
   std::map<std::string,vl::Tensor> tensors ;
+  std::map<int, std::string> descriptions ;
 } ;
 
 class Program

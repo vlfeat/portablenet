@@ -1,8 +1,8 @@
 //
-//  Conv.cpp
+//  LRN.cpp
 //  PortableNet
 //
-//  Created by Andrea Vedaldi on 16/10/2017.
+//  Created by dingding chen on 31/12/2017.
 //  Copyright © 2017 VGG. All rights reserved.
 //
 
@@ -21,45 +21,31 @@ using namespace std ;
 using namespace vl ;
 using namespace nlohmann ;
 
-
-ErrorCode Conv(json const& opc, Workspace& ws)
+ErrorCode Norm(json const& opc, Workspace& ws)
 {
-  auto op = vl::nn::Convolution(globalContext) ;
-  try {
-    if (opc.count("stride")) {
-      PNCHECK(op.setStride(opc["stride"].get<vector<Int>>())) ;
-    }
-    if (opc.count("padding")) {
-      PNCHECK(op.setPadding(opc["padding"].get<vector<Int>>())) ;
-    }
-    if (opc.count("dilation")) {
-      PNCHECK(op.setDilation(opc["dilation"].get<vector<Int>>())) ;
-    }
-
-    // Get input data
-    Tensor x = ws.get(opc["inputs"][0].get<string>()) ;
-    Tensor w = ws.get(opc["params"][0].get<string>()) ;
-    Tensor b = Tensor() ;
-    if (opc["hasBias"].get<bool>()) {
-      b = ws.get(opc["params"][1].get<string>()) ;
+  auto op = vl::nn::LRN(globalContext) ;
+  
+  try{
+    if (opc.count("param")) {
+      PNCHECK(op.setParameters(opc["param"].get<vector<int>>()[0], opc["param"].get<vector<double>>()[1],opc["param"].get<vector<double>>()[2], opc["param"].get<vector<double>>()[3])) ;
     }
     
-    // Call convolution
+    // Get input data
+    Tensor x = ws.get(opc["inputs"][0].get<string>()) ;
+    
+    // Call normalisation
     TensorShape yShape ;
-    PNCHECK(op.forwardShape(yShape, x, w)) ;
-
+    PNCHECK(op.forwardShape(yShape, x.getShape())) ;
+    
     Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,yShape) ;
-    PNCHECK(op.forward(y,0,x,1,w,b)) ;
+    PNCHECK(op.forward(y, x)) ;
     
 //    ofstream resultFile;
 //    resultFile.open("result", ios::out | ios::binary);
 //    resultFile.write(static_cast<const char *>(y.getMemory()), yShape.getHeight()*yShape.getWidth()*yShape.getCardinality()*yShape.getNumChannels()*sizeof(float)) ;
 //    resultFile.close();
-
     
-  }
-  
-  catch (json::exception& e) {
+  }catch (json::exception& e) {
     auto msg = ostringstream()<<"Conv: JSON error: "<<e.what() ;
     return globalContext.setError(VLE_IllegalArgument, msg.str().c_str()) ;
   }
