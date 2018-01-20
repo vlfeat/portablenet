@@ -68,6 +68,10 @@ for i = 1:numel(order)
         'param', bk.param)) ;
   end
   netj.operations{end+1} = op ;
+  op = struct(...
+      'type','release',...
+      'name',{ly.inputs}) ;
+  netj.operations{end+1} = op ;
 end
 
 % Write data out.

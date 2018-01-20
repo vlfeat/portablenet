@@ -375,6 +375,10 @@ vl::ErrorCode Program::execute(Workspace& ws)
     else if (type == "LoadImage") {
       PNCHECK(LoadImage(op, ws)) ;
     }
+    else if (type == "release") {
+      auto name = op["name"][0].get<string>() ;
+      ws.remove(name) ;
+    }
   }
   return VLE_Success ;
 }
