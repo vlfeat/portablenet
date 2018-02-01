@@ -24,7 +24,7 @@ ErrorCode LoadMeta(Workspace& ws){
     DataType dt = VLDT_Float ;
     
     // The dimension of average colour is the same as input requirement
-    const std::vector<Int> dims = {227, 227, 3, 1} ;
+    const std::vector<Int> dims = {224, 224, 3, 1} ;
     TensorShape shape(dims);
     
     // Store the average colour tensor in workspace

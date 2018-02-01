@@ -41,7 +41,7 @@ void Workspace::print() const
   // Search if such a tensor exists.
   Tensor tensor ;
   
-  auto const& found = tensors.find("x21") ;
+  auto const& found = tensors.find("prob") ;
   if (found != tensors.end()) {tensor = found->second ; }
   
   // Initialize counter
@@ -51,7 +51,8 @@ void Workspace::print() const
   char max_char = 0 ;
   
   // Initialize counter for max 5 output
-  vector<bool> tracker(1000, false) ;
+  size_t nLabel = descriptions.size() ;
+  vector<bool> tracker(nLabel, false) ;
   const int n = 5 ;
   vector<double> topN_double ;
   vector<float> topN_float ;
@@ -67,7 +68,7 @@ void Workspace::print() const
       
             switch (tensor.getDataType()) {
               case VLDT_Double: {
-                for (int counter = 0; counter < 1000; counter++) {
+                for (int counter = 0; counter < nLabel; counter++) {
                 if (abs(static_cast<double const*>(tensor.getMemory())[counter]) > max_double) {
                   max_double = abs(static_cast<double const*>(tensor.getMemory())[counter]) ;
                   max_counter = counter ;
@@ -79,7 +80,7 @@ void Workspace::print() const
                 break ;
               }
               case VLDT_Float:{
-                for (int counter = 0; counter < 1000; counter++) {
+                for (int counter = 0; counter < nLabel; counter++) {
                 if (abs(static_cast<float const*>(tensor.getMemory())[counter]) > max_float) {
                   max_float = abs(static_cast<float const*>(tensor.getMemory())[counter]) ;
                   max_counter = counter ;
@@ -91,7 +92,7 @@ void Workspace::print() const
                 break ;
               }
               case VLDT_Char:{
-                for (int counter = 0; counter < 1000; counter++) {
+                for (int counter = 0; counter < nLabel; counter++) {
                 if (abs(static_cast<char const*>(tensor.getMemory())[counter]) > max_char) {
                   max_char = abs(static_cast<char const*>(tensor.getMemory())[counter]) ;
                   max_counter = counter;
@@ -350,7 +351,7 @@ vl::ErrorCode Program::execute(Workspace& ws)
   
   for (auto const& op : source["operations"]) {
     auto type = op["type"].get<string>() ;
-    cout << "Executing " << type << endl ;
+    //cout << "Executing " << type << endl ;
     if (type == "Load") {
       PNCHECK(Load(op, ws)) ;
     }
@@ -372,12 +373,17 @@ vl::ErrorCode Program::execute(Workspace& ws)
     else if (type == "dagnn.SoftMax") {
       PNCHECK(SoftMax(op, ws)) ;
     }
+    else if (type == "dagnn.BatchNorm") {
+      PNCHECK(BNorm(op, ws)) ;
+    }
+    else if (type == "dagnn.Sum") {
+      PNCHECK(Sum(op, ws)) ;
+    }
     else if (type == "LoadImage") {
       PNCHECK(LoadImage(op, ws)) ;
     }
     else if (type == "release") {
-      auto name = op["name"][0].get<string>() ;
-      ws.remove(name) ;
+      PNCHECK(Release(op, ws)) ;
     }
   }
   return VLE_Success ;

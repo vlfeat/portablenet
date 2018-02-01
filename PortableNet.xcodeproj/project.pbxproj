@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		12553A7B1FB0EC4800CD446A /* Pool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12553A7A1FB0EC4800CD446A /* Pool.cpp */; };
+		1292D11D2023139900F1049B /* Release.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1292D11C2023139900F1049B /* Release.cpp */; };
 		129764951FB4702900DF5E70 /* ReLU.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 129764941FB4702900DF5E70 /* ReLU.cpp */; };
 		12B1C2341FF8D51700D97FA8 /* Norm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12B1C2321FF8D51700D97FA8 /* Norm.cpp */; };
 		12B1C23A1FF9DDAF00D97FA8 /* DropOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12B1C2391FF9DDAF00D97FA8 /* DropOut.cpp */; };
 		12B1C2431FFC7E2C00D97FA8 /* Loss.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12B1C2421FFC7E2C00D97FA8 /* Loss.cpp */; };
 		12B1C2461FFDF9EF00D97FA8 /* LoadMeta.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12B1C2451FFDF9EF00D97FA8 /* LoadMeta.cpp */; };
+		12FAE42620228A8E002FEFA9 /* BNorm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FAE42520228A8E002FEFA9 /* BNorm.cpp */; };
+		12FAE42C20228AA1002FEFA9 /* Sum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FAE42B20228AA1002FEFA9 /* Sum.cpp */; };
 		12FFEC091FBA01FF00908DFE /* LoadImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FFEC081FBA01FF00908DFE /* LoadImage.cpp */; };
 		2D12E5EC1FD19B9900362E35 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D12E5E21FD19B3600362E35 /* CoreFoundation.framework */; };
 		2D12E5ED1FD19B9E00362E35 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D12E5E71FD19B3A00362E35 /* CoreGraphics.framework */; };
@@ -63,12 +66,15 @@
 
 /* Begin PBXFileReference section */
 		12553A7A1FB0EC4800CD446A /* Pool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Pool.cpp; sourceTree = "<group>"; };
+		1292D11C2023139900F1049B /* Release.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Release.cpp; sourceTree = "<group>"; };
 		129764941FB4702900DF5E70 /* ReLU.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ReLU.cpp; sourceTree = "<group>"; };
 		12B1C2321FF8D51700D97FA8 /* Norm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Norm.cpp; sourceTree = "<group>"; };
 		12B1C2391FF9DDAF00D97FA8 /* DropOut.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DropOut.cpp; sourceTree = "<group>"; };
 		12B1C2401FFB789300D97FA8 /* Program.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Program.hpp; path = PortableNet/Program.hpp; sourceTree = SOURCE_ROOT; };
 		12B1C2421FFC7E2C00D97FA8 /* Loss.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Loss.cpp; sourceTree = "<group>"; };
 		12B1C2451FFDF9EF00D97FA8 /* LoadMeta.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoadMeta.cpp; sourceTree = "<group>"; };
+		12FAE42520228A8E002FEFA9 /* BNorm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BNorm.cpp; sourceTree = "<group>"; };
+		12FAE42B20228AA1002FEFA9 /* Sum.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sum.cpp; sourceTree = "<group>"; };
 		12FFEC081FBA01FF00908DFE /* LoadImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoadImage.cpp; sourceTree = "<group>"; };
 		2D12E5E21FD19B3600362E35 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		2D12E5E71FD19B3A00362E35 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -150,6 +156,9 @@
 				129764941FB4702900DF5E70 /* ReLU.cpp */,
 				12B1C2421FFC7E2C00D97FA8 /* Loss.cpp */,
 				12553A7A1FB0EC4800CD446A /* Pool.cpp */,
+				12FAE42520228A8E002FEFA9 /* BNorm.cpp */,
+				1292D11C2023139900F1049B /* Release.cpp */,
+				12FAE42B20228AA1002FEFA9 /* Sum.cpp */,
 				12FFEC081FBA01FF00908DFE /* LoadImage.cpp */,
 				2DD0E7131F9521EA00AC1911 /* Load.cpp */,
 				12B1C2451FFDF9EF00D97FA8 /* LoadMeta.cpp */,
@@ -254,13 +263,16 @@
 				129764951FB4702900DF5E70 /* ReLU.cpp in Sources */,
 				2DD0E7151F9521EA00AC1911 /* Load.cpp in Sources */,
 				2D8D3E7C1F92E68900686D30 /* Program.cpp in Sources */,
+				12FAE42620228A8E002FEFA9 /* BNorm.cpp in Sources */,
 				12B1C2461FFDF9EF00D97FA8 /* LoadMeta.cpp in Sources */,
+				12FAE42C20228AA1002FEFA9 /* Sum.cpp in Sources */,
 				12B1C2431FFC7E2C00D97FA8 /* Loss.cpp in Sources */,
 				12B1C2341FF8D51700D97FA8 /* Norm.cpp in Sources */,
 				12FFEC091FBA01FF00908DFE /* LoadImage.cpp in Sources */,
 				12B1C23A1FF9DDAF00D97FA8 /* DropOut.cpp in Sources */,
 				12553A7B1FB0EC4800CD446A /* Pool.cpp in Sources */,
 				2DA060471F910D47002A6BA3 /* main.cpp in Sources */,
+				1292D11D2023139900F1049B /* Release.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

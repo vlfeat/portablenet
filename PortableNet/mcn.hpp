@@ -15,6 +15,6 @@
 #include "../Lib/matconvnet/matlab/src/bits/imread.hpp"
 #include "../Lib/matconvnet/matlab/src/bits/nnnormalize.hpp"
 #include "../Lib/matconvnet/matlab/src/bits/impl/imread_helpers.hpp"
-
+#include "../Lib/matconvnet/matlab/src/bits/nnbnorm.hpp"
 
 #endif /* mcn_h */

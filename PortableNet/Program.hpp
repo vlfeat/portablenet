@@ -31,6 +31,9 @@ vl::ErrorCode Norm(nlohmann::json const& op, Workspace& ws) ;
 vl::ErrorCode DropOut(nlohmann::json const& op, Workspace& ws);
 vl::ErrorCode LoadMeta(Workspace& ws) ;
 vl::ErrorCode SoftMax(nlohmann::json const& op, Workspace& ws);
+vl::ErrorCode BNorm(nlohmann::json const& op, Workspace& ws);
+vl::ErrorCode Sum(nlohmann::json const& op, Workspace& ws);
+vl::ErrorCode Release(nlohmann::json const& op, Workspace& ws);
 
 class Workspace
 {
