@@ -34,6 +34,7 @@ vl::ErrorCode SoftMax(nlohmann::json const& op, Workspace& ws);
 vl::ErrorCode BNorm(nlohmann::json const& op, Workspace& ws);
 vl::ErrorCode Sum(nlohmann::json const& op, Workspace& ws);
 vl::ErrorCode Release(nlohmann::json const& op, Workspace& ws);
+vl::ErrorCode Concat(nlohmann::json const& op, Workspace& ws);
 
 class Workspace
 {

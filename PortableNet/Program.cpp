@@ -379,6 +379,9 @@ vl::ErrorCode Program::execute(Workspace& ws)
     else if (type == "dagnn.Sum") {
       PNCHECK(Sum(op, ws)) ;
     }
+    else if (type == "dagnn.Concat") {
+      PNCHECK(Concat(op, ws)) ;
+    }
     else if (type == "LoadImage") {
       PNCHECK(LoadImage(op, ws)) ;
     }
