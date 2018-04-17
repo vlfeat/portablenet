@@ -44,6 +44,7 @@ public:
   bool exists(std::string name) const ;
   vl::Tensor get(std::string name) ;
   vl::Tensor get(std::string name, vl::DataType dt, vl::TensorShape const& shape) ;
+  vl::Tensor assign(std::string name, vl::DataType dt, vl::TensorShape const& shape, void * memory);
   void remove(std::string name) ;
   std::string const& baseName() const ;
   std::string const& inputName() const ;
@@ -54,10 +55,13 @@ public:
   vl::Tensor & getAverageColour(vl::DataType dt, vl::TensorShape const & shape) ;
   vl::Tensor & colour() ;
   void getDescription(int key, std::string substring) ;
+  void * getInitialAddress() ;
+  void * startAddress() ;
   
 private:
   std::string baseNameString ;
   std::string inputFileName ;
+  void * initialAddress ;
   vl::Tensor averageColour ;
   int method ;
   std::map<std::string,vl::Tensor> tensors ;

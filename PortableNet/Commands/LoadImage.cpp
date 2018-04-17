@@ -78,6 +78,7 @@ ErrorCode LoadImage(json const& opc, Workspace& ws)
     resultFile.open("image", ios::out | ios::binary);
     resultFile.write(static_cast<const char *>(tensor.getMemory()), 224*224*3*sizeof(float)) ;
     resultFile.close();
+    
 
   } catch (json::exception& e) {
     auto msg = ostringstream()<<"LoadImage: JSON error: "<<e.what() ;

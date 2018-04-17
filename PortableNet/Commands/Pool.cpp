@@ -47,8 +47,11 @@ ErrorCode Pool(json const& opc, Workspace& ws)
   // Call pooling
   TensorShape yShape;
   PNCHECK(op.forwardShape(yShape, x));
-  
-  Tensor y = ws.get(opc["outputs"][0].get<string>(), VLDT_Float, yShape);
+    char add =  opc["address"].get<char>();
+    char * add2 = add + static_cast<char *>(ws.startAddress()) ;
+    void * address = reinterpret_cast<void *>(add2) ;
+    Tensor y = ws.assign(opc["outputs"][0].get<string>(),VLDT_Float,yShape,address) ;
+//  Tensor y = ws.get(opc["outputs"][0].get<string>(), VLDT_Float, yShape);
   PNCHECK(op.forward(y, x));
   
 //    ofstream resultFile;

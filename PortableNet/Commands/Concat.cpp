@@ -61,7 +61,11 @@ vl::ErrorCode Concat(json const& opc, Workspace& ws) {
   yShape.setDepth(xDimCounter) ;
   
   // Allocate space for output
-  Tensor y = ws.get(opc["outputs"][0], VLDT_Float, yShape) ;
+  char add =  opc["address"].get<char>();
+  char * add2 = add + static_cast<char *>(ws.startAddress()) ;
+  void * address = reinterpret_cast<void *>(add2) ;
+  Tensor y = ws.assign(opc["outputs"][0].get<string>(),VLDT_Float,yShape,address) ;
+//  Tensor y = ws.get(opc["outputs"][0], VLDT_Float, yShape) ;
   
   // Perform concatenation
   for (int u = 0; u < inputSize; u++){

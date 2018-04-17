@@ -27,7 +27,11 @@ ErrorCode ReLU(json const& opc, Workspace& ws)
   assert(opc["outputs"].is_array());
   
   Tensor x = ws.get(opc["inputs"][0].get<string>());
-  Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,x.getShape()) ;
+//  Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,x.getShape()) ;
+  char add =  opc["address"].get<char>();
+  char * add2 = add + static_cast<char *>(ws.startAddress()) ;
+  void * address = reinterpret_cast<void *>(add2) ;
+  Tensor y = ws.assign(opc["outputs"][0].get<string>(),VLDT_Float,x.getShape(),address) ;
   
   if (!x) { return VLE_IllegalArgument ; }
   

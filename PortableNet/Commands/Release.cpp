@@ -24,7 +24,7 @@ ErrorCode Release(json const& opc, Workspace& ws){
   
   // For multiple inputs
   for (int i = 0; i < opc["name"].size(); i++) {
-    auto name = opc["name"][0].get<string>() ;
+    auto name = opc["name"].get<string>() ;
     
     // Check that this input exists
     bool flag = ws.exists(name) ;

@@ -15,10 +15,11 @@ im_ = single(im) ; % note: 0-255 range
 im_ = imresize(im_, net.meta.normalization.imageSize(1:2)) ;
 im_ = bsxfun(@minus, im_, net.meta.normalization.averageImage) ;
 
-net.conserveMemory = 1 ;
+net.conserveMemory = 0 ;
 
 % run the CNN
-net.eval({'data', im_},{'prob', im_}) ;
+output = {'prob', 1};
+net.eval({'data', im_},output) ;
 
 scores = squeeze(gather(net.vars(end).value)) ;
 [bestScore, best] = max(scores) ;

@@ -44,11 +44,16 @@ ErrorCode Conv(json const& opc, Workspace& ws)
       b = ws.get(opc["params"][1].get<string>()) ;
     }
     
+    char add =  opc["address"].get<char>();
+    char * add2 = add + static_cast<char *>(ws.startAddress()) ;
+    void * address = reinterpret_cast<void *>(add2) ;
+    
     // Call convolution
     TensorShape yShape ;
     PNCHECK(op.forwardShape(yShape, x, w)) ;
 
-    Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,yShape) ;
+    // Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,yShape) ;
+    Tensor y = ws.assign(opc["outputs"][0].get<string>(),VLDT_Float,yShape,address) ;
     PNCHECK(op.forward(y,0,x,1,w,b)) ;
     
 //    ofstream resultFile;

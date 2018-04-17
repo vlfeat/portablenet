@@ -28,7 +28,11 @@ ErrorCode SoftMax(json const& opc, Workspace& ws)
   
   // Read inputs and outputs from workspace
   Tensor x = ws.get(opc["inputs"][0].get<string>());
-  Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,x.getShape()) ;
+  char add =  opc["address"].get<char>();
+  char * add2 = add + static_cast<char *>(ws.startAddress()) ;
+  void * address = reinterpret_cast<void *>(add2) ;
+  Tensor y = ws.assign(opc["outputs"][0].get<string>(),VLDT_Float,x.getShape(),address) ;
+//  Tensor y = ws.get(opc["outputs"][0].get<string>(),VLDT_Float,x.getShape()) ;
   
   // Error if x does not exist
   if (!x) { return VLE_IllegalArgument ; }

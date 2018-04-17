@@ -7,9 +7,9 @@ run(fullfile(fileparts(mfilename('fullpath')), ...
 % Load the model and reconstruct into dag form.
 addpath('../../matconvnet/matlab') ;
 
-net = dagnn.DagNN.loadobj('../../PortableNet/data/googleLeNet/imagenet-googlenet-dag.mat') ;
+net = dagnn.DagNN.loadobj('../../PortableNet/data/googleNet/imagenet-googlenet-dag.mat') ;
 
-opts.outDir = '../data/googleLeNet' ;
+opts.outDir = '../data/googleNet' ;
 mkdir(opts.outDir) ;
 
 % -------------------------------------------------------------------------
@@ -84,7 +84,7 @@ end
 % -------------------------------------------------------------------------
 % Create list of operation
 % -------------------------------------------------------------------------
-
+order = net.getLayerExecutionOrder() ;
 netj.operations = {} ;
 
 % The first operation is to load the parameters.

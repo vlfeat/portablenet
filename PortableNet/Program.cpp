@@ -263,6 +263,33 @@ vl::Tensor Workspace::get(string name, DataType dt, TensorShape const& shape)
   return tensor ;
 }
 
+// Doing the same job as get but with a specific location
+vl::Tensor Workspace::assign(string name, DataType dt, TensorShape const& shape, void * memory)
+{
+  // Search if such a tensor exists.
+  auto const& found = tensors.find(name) ;
+  if (found != tensors.end()) {
+    auto& tensor = found->second ;
+    if (tensor.getDataType() == dt && tensor == shape) {
+      return tensor ;
+    }
+  }
+  
+  // No matching tensor found; create a new one.
+  remove(name) ;
+  size_t numBytes = shape.getNumElements() * getDataTypeSizeInBytes(dt) ;
+  assert(memory) ;
+  if (memory == NULL) {
+    // Throw or return null tensor?
+    numBytes = 0 ;
+  }
+  Tensor tensor(shape, dt, VLDT_CPU, memory, numBytes) ;
+  
+  // Add back to list.
+  tensors[name] = tensor ;
+  return tensor ;
+}
+
 void Workspace::remove(string name)
 {
   // Search if such a tensor exists.
@@ -270,6 +297,7 @@ void Workspace::remove(string name)
   if (found != tensors.end()) {
     auto& tensor = found->second ;
     free(tensor.getMemory()) ;
+    
     tensors.erase(found) ;
   }
 }
@@ -280,8 +308,16 @@ bool Workspace::exists(string name) const
   return (found != tensors.end()) ;
 }
 
+//Workspace::~Workspace()
+//{
+//  for (auto x = tensors.begin() ; x != tensors.end() ; x = tensors.begin()) {
+//    remove(x->first) ;
+//  }
+//}
+
 Workspace::~Workspace()
 {
+  free(static_cast<void *>(initialAddress)) ;
   for (auto x = tensors.begin() ; x != tensors.end() ; x = tensors.begin()) {
     remove(x->first) ;
   }
@@ -334,6 +370,24 @@ vl::Tensor & Workspace::getAverageColour(vl::DataType dt, vl::TensorShape const 
   return averageColour ;
 }
 
+void *  Workspace::getInitialAddress()
+{
+  size_t numBytes = 150000000;
+  void* memory = malloc(numBytes) ;
+  assert(memory) ;
+  if (memory == NULL) {
+    // Throw or return null tensor?
+    numBytes = 0 ;
+  }
+  initialAddress = memory ;
+  return initialAddress ;
+}
+
+void * Workspace::startAddress()
+{
+  return initialAddress ;
+}
+
 vl::Tensor & Workspace::colour(){return averageColour;}
 
 // Allocate class description in workspace
@@ -346,16 +400,20 @@ void Workspace::getDescription(int key, std::string substring )
 
 vl::ErrorCode Program::execute(Workspace& ws)
 {
-  // cout << "Executing load average colour of image" << endl ;
+  cout << "Executing load average colour of image" << endl ;
   PNCHECK(LoadMeta(ws)) ;
-  
   for (auto const& op : source["operations"]) {
     auto type = op["type"].get<string>() ;
-    //cout << "Executing " << type << endl ;
+    cout << "Executing " << type << endl ;
     if (type == "Load") {
       PNCHECK(Load(op, ws)) ;
     }
-    else if (type == "dagnn.Conv") {
+    else if (type == "LoadImage") {
+      PNCHECK(LoadImage(op, ws)) ;
+    }
+    else{
+      ws.getInitialAddress() ;
+    if (type == "dagnn.Conv") {
       PNCHECK(Conv(op, ws)) ;
     }
     else if (type == "dagnn.Pooling") {
@@ -382,12 +440,11 @@ vl::ErrorCode Program::execute(Workspace& ws)
     else if (type == "dagnn.Concat") {
       PNCHECK(Concat(op, ws)) ;
     }
-    else if (type == "LoadImage") {
-      PNCHECK(LoadImage(op, ws)) ;
     }
-    else if (type == "release") {
-      PNCHECK(Release(op, ws)) ;
-    }
+//    else if (type == "release") {
+//      PNCHECK(Release(op, ws)) ;
+//    }
+    
   }
   return VLE_Success ;
 }

@@ -1,3 +1,4 @@
+clear all
 % test = netgraph.netGraph() ;
 % test.addLinkage(1,'a','b') ;
 % test.addLinkage(2,'a','c') ;
@@ -9,7 +10,7 @@
 % test.addLinkage(8,'g','i') ;
 % test.addLinkage(9,'h','j') ;
 % test.addLinkage(10,{'i','j'},'k') ;
-% 
+
 % test.rebuild() ;
 % 
 % test.setSize('a', 10);
@@ -24,10 +25,18 @@
 % test.setSize('j', 80);
 % test.setSize('k', 1);
 
-clear all
 
+% clear all
+% 
 netPath = '../data/googlenet/imagenet-googlenet-dag.mat';
+includeBack = false ;
+test = netgraph.netGraph.loadobj(netPath,includeBack) ;
+% 
+% [order, memory] = test.optOrder() ;
 
-test = netgraph.netGraph.loadobj(netPath) ;
+order = test.defaultOrder() ;
+tic
+blockMemory = test.packing(order) ;
+toc
+wmem = test.worstmem();
 
-[order, memoryUsage] = test.optOrder() ;

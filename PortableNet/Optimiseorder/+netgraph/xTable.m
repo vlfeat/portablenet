@@ -1,6 +1,7 @@
 classdef xTable < handle
     properties (Access = {?netgraph.netGraph, ?netgraph.table})
         Entry
+        numCalls
     end
     
     methods
@@ -8,6 +9,7 @@ classdef xTable < handle
             obj.Entry = struct(...,
                 'key', {[]},...
                 'value', {[]}) ;
+            obj.numCalls = 0 ;
         end
         
         function addEntry(obj, newKey, newValue)

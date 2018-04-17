@@ -1,5 +1,5 @@
-function obj = loadobj(s)
-% IMPORT(s) initialize a graphical representation structure
+function obj = loadobj(s,includeBack)
+% LOADOBJ(s) initialize a graphical representation structure
 % If S is a string, initializes the structure with data from a mat-file s
 
 addpath('../../matconvnet/matlab') ;
@@ -18,6 +18,9 @@ if isstruct(s)
     % Initialise a netGraph representation
     obj = netgraph.netGraph() ;
     
+    obj.includeBackPropagation = includeBack ;
+    
+    % Add the forward linkages
     for l = 1:numel(s.layers)
         constr = str2func(s.layers(l).type) ;
         block = constr() ;
@@ -26,14 +29,26 @@ if isstruct(s)
             s.layers(l).name, ...
             s.layers(l).inputs, ...
             s.layers(l).outputs, ...
-            block) ;
+            block, ...
+            s.layers(l).type) ;
+    end
+    
+    if obj.includeBackPropagation == true
+        % Add backward linkages
+        obj.addBack() ;
     end
     
     obj.rebuild() ;
     
     inputSize = s.meta.inputs.size ;
-    obj.getSize(inputSize) ;
     
+    if obj.includeBackPropagation == false
+        obj.getSize(inputSize) ;
+    else
+        outputDer = 1 ;
+        obj.getSize(inputSize, outputDer) ;
+    end
+  
 else
     error('Unknown data type %s for `import(s)`.', class(s));
 end

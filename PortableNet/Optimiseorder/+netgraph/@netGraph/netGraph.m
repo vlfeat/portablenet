@@ -5,11 +5,16 @@ classdef netGraph < matlab.mixin.Copyable
         linkage
     end
     
-    properties (Transient, Access = private, Hidden = true)
-        modifed = false
+    properties (Transient)
+        includeBackPropagation
+    end
+    
+    properties (Transient, Access = public, Hidden = true)
         nodeNames = struct()
-        layerNames = struct()
+        linkageNames = struct()
         layerIndexes = {}
+        type = {}
+        
     end
     
     properties (Transient, Access = public, Hidden = true)
@@ -25,13 +30,19 @@ classdef netGraph < matlab.mixin.Copyable
                 'outputs', {}, ...
                 'inputIndexes', {}, ...
                 'outputIndexes', {}, ...
-                'block', {}) ;
+                'block', {}, ...
+                'type', {}) ;
             
             obj.nodes = struct(...
                 'name', {}, ...
                 'size', {}, ...
                 'shape', {}, ...
-                'numUsages', {}) ;
+                'numUsages', {},...
+                'numOutputs', {},...
+                'numInputs', {},...
+                'address', {}) ;
+            
+            obj.includeBackPropagation = false ;
         end
         
         % Manipulate the netGraph
@@ -40,14 +51,36 @@ classdef netGraph < matlab.mixin.Copyable
         rebuild(obj)
         
         % Get size of the nodes
-        getSize(obj, inputSizes)
+        getSize(obj, inputSizes, outputDer)
         
         % Get execution order
         [order, memoryUsage] = optOrder(obj)
+        [order, memoryUsage] = defaultOrder(obj)
+        
+        % Check memory usage for execution order
+        memory = getMemory(obj, order)
+        
+        % Obtain preallocated address for each tensor
+        address = packing(obj, order)
+        
+        % Worst case memory
+        mem = worstmem(obj)
         
         function outputs = getFrontieer(obj)
+            % GETFRONTIEER finds the name of output of netGraph
             n = find([obj.nodes.numUsages] == 0) ;
             outputs = {obj.nodes(n).name} ;
+        end
+        
+        function inputs = getInput(obj)
+            % GETINPUT finds the name of input of netGraph
+            in = find([obj.nodes.numInputs] == 0) ;
+            inputs = {obj.nodes(in).name} ;
+        end
+        
+        function outputs = getFrontieerIndex(obj)
+            n = find([obj.nodes.numUsages] == 0) ;
+            outputs = n;
         end
         
         function l = getLinkageIndex(obj, name)
@@ -94,7 +127,7 @@ classdef netGraph < matlab.mixin.Copyable
                 
             else
                 warning('The input is not an index') ;
-            end      
+            end
         end
         
         function outputLayerIndex = getOutputLayerIndex(obj, output)
@@ -112,10 +145,33 @@ classdef netGraph < matlab.mixin.Copyable
                         outputLayerIndex(end+1) = counter ;
                     end
                 end
-             
+                
             else
                 warning('The node is not an index') ;
-            end      
+            end
+        end
+        
+        function inputLayerIndex = getInputLayerIndex(obj, input, n)
+            % Given an input node's index, this function finds the associated
+            % layer's index for the first n layers
+            while iscell(input)
+                input = input{1,1} ;
+            end
+            
+            if isnumeric(input)
+                inputLayerIndex = [] ;
+                
+                for counter = 1 : n
+                    for u = 1:numel(obj.linkage(counter).inputs)
+                        if isequal(obj.linkage(counter).inputs{u},obj.nodes(input).name)
+                            inputLayerIndex(end+1) = counter ;
+                        end
+                    end
+                end
+                
+            else
+                warning('The node is not an index') ;
+            end
         end
         
         function n = getNodesIndex(obj, name)
@@ -132,20 +188,38 @@ classdef netGraph < matlab.mixin.Copyable
                 end
             end
         end
+        
+        function myGraph = getGraph(obj)
+            %GETGRAPH gets a graph representation
+            myGraph = digraph ;
+            
+            for k = 1:numel(obj.nodes)
+                myGraph = addnode(myGraph, obj.nodes(k).name) ;
+            end
+            
+            for m = 1:numel(obj.linkage)
+                myGraph = addedge(myGraph, obj.linkage(m).inputs, obj.linkage(m).outputs) ;
+            end
+            
+            plot(myGraph, 'Layout', 'force')
+        end
     end
     
     methods (Static)
-        obj = loadobj(s)
+        obj = loadobj(s,includeBack)
     end
     
-    methods (Access = {?netGraph.netGraph})
+    methods (Access = public)
         function n = addNodes(obj, name)
             n = numel(obj.nodes) + 1 ;
             obj.nodes(n) = struct(...
                 'name', {name}, ...
                 'size', {[]}, ...
                 'shape', {[]}, ...
-                'numUsages', {[]}) ;
+                'numUsages', {[]},...
+                'numOutputs', {[]},...
+                'numInputs', {[]},...
+                'address', {[]}) ;
             
             if n > 1
                 for i = 1:(numel(obj.nodes)-1)
